@@ -180,19 +180,19 @@ router.get("/get-password", async (req, res) => {
 });
 
 router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res) => {
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
 
-  // Store the file path in your application's data model
-  const imagePath = req.file.path;
-  // Do something with the uploaded image, e.g., save it to a database
+  console.log(req.file)
+
   try {
     await User.findByIdAndUpdate(
       { _id: req.user.id },
-      { avatar : "/"+req.file.path.replace(/\\/g, '/') },
-      { new: true } // Return the updated document
+      { 
+        imageBuffer: req.file.buffer ,
+        imageType : req.file.mimetype 
+      },
+      { new: true } 
     )
+    .select("-__v -imageBuffer -imageType")
     .then((docs)=> {
       if(docs){
     
@@ -240,13 +240,33 @@ router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res
 
 })
 
-// Route to serve the uploaded images
-// Route to serve the uploaded images
-router.get('/images/:filename', (req, res) => {
-  const filename = req.params.filename;
-  const imagePath = path.join(__dirname, 'uploads', filename);
-  res.sendFile(imagePath);
-});
+router.get("/uploads/:id",async (req,res) => {
+
+  try {
+
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).send('Image not found.');
+    }
+
+    res.set('Content-Type', user.imageType);
+    res.send(user.imageBuffer);
+
+  } catch (error) {
+    res.status(500).json({
+      status_code: ApiErrorCode.internalError,
+      message: error.message,
+      data: null,
+      error : {
+        message : error.message
+      }
+    });
+  }
+
+
+
+})
 
 
 
