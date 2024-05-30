@@ -12,9 +12,6 @@ const express = require("express");
 router = express.Router();
 
 router.post("/login", async (req, res ,next) => {
-
-  console.log("user is : "+req.body.email)
-
   const { error } = validationLoginUser(req.body);
   if (error) {
     res.status(400).json({
@@ -27,7 +24,6 @@ router.post("/login", async (req, res ,next) => {
   }else {
     User.findOne({ email: req.body.email })
     .then( async(user) => {
-
       if (user) {
         const { password, __v, ...other } = user._doc;
         const validPassword = await bcrypt.compare(
@@ -92,6 +88,8 @@ router.post("/login", async (req, res ,next) => {
       });
     });
   }
+
+  
 });
 
 router.patch("/update-admin", verifyTokenAndAdmin, async (req, res) => {
@@ -181,19 +179,12 @@ router.get("/get-password", async (req, res) => {
   });
 });
 
-router.post("/uploads",verifyTokenAndAdmin,upload.single('uploads'),async (req,res) => {
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
-
-  // Store the file path in your application's data model
-  const imagePath = req.file.path;
-  // Do something with the uploaded image, e.g., save it to a database
+router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res) => {
 
   try {
     await User.findByIdAndUpdate(
       { _id: req.user.id },
-      { avatar : "/"+imagePath.replace(/\\/g, '/') },
+      { avatar : "/"+req.file.path.replace(/\\/g, '/') },
       { new: true } // Return the updated document
     )
     .then((docs)=> {
@@ -239,6 +230,8 @@ router.post("/uploads",verifyTokenAndAdmin,upload.single('uploads'),async (req,r
       }
     });
   }
+
+
 })
 
 // Route to serve the uploaded images
