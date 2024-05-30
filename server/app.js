@@ -6,6 +6,7 @@ const app = express();
 const { verifyTokenAndAdmin, } = require("./core/middleware/verify-token")
 const cors = require('cors');
 const BackDoor = require("./features/back-door/back-door-controller")
+const path = require("path")
 // Connecting to database
 connectingDataBase()
 
@@ -14,7 +15,7 @@ connectingDataBase()
 app.use(morgan("dev"))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
+app.use(express.static(path.join(__dirname,"uploads")))
 //Resources Path
 
 const authRouter = require('./features/auth/routers/auth');
@@ -99,6 +100,7 @@ app.use("/api/daily",verifyTokenAndAdmin,dailyRouter)
 app.use("/api/schadual",verifyTokenAndAdmin,schadualsRouter)
 app.use("/api/invoice",verifyTokenAndAdmin,invoiceRouter)
 app.use("/api/inquery",verifyTokenAndAdmin,inqueryRouter)
+
 // app.use("/api/client",run)
 
 app.get("/api/back-door",(req,res)=> {

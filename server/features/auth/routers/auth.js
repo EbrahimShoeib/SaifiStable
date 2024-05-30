@@ -181,12 +181,19 @@ router.get("/get-password", async (req, res) => {
   });
 });
 
-router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res) => {
+router.post("/uploads",verifyTokenAndAdmin,upload.single('uploads'),async (req,res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+
+  // Store the file path in your application's data model
+  const imagePath = req.file.path;
+  // Do something with the uploaded image, e.g., save it to a database
 
   try {
     await User.findByIdAndUpdate(
       { _id: req.user.id },
-      { avatar : "/"+req.file.path.replace(/\\/g, '/') },
+      { avatar : "/"+imagePath.replace(/\\/g, '/') },
       { new: true } // Return the updated document
     )
     .then((docs)=> {
