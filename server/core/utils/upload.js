@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname,'../../uploads')); // Specify the upload directory
   },
   filename: function(req, file, cb)  {
-    cb(null, Date.now().toISOString().replace(/:/g ,"-")+file.originalname ); // Generate a unique filename
+    cb(null, Date.now()+file.originalname ); // Generate a unique filename
   },
 });
   // Initialize Multer with the storage configuration
