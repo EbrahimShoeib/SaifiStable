@@ -242,7 +242,7 @@ router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res
 
 // Route to serve the uploaded images
 // Route to serve the uploaded images
-app.get('/images/:filename', (req, res) => {
+router.get('/images/:filename', (req, res) => {
   const filename = req.params.filename;
   const imagePath = path.join(__dirname, 'uploads', filename);
   res.sendFile(imagePath);
