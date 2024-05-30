@@ -5,7 +5,7 @@ export const BASE_URL :string =  "https://saifistable-1.onrender.com/api"
 //  "https://saifistableserver-gt6xw.ondigitalocean.app/api"
 // "https://saifistable-1.onrender.com/api"
 //"https://saifistableserver-gt6xw.ondigitalocean.app/"
-  
+   
 export const clientsRoute = "/client"
 export const horsesRoute = "/hourse"
 export const instructorsRoute = "/instractor"
