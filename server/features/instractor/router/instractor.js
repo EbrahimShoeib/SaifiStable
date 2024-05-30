@@ -252,7 +252,7 @@ router.post(
     try{
       instractor.findByIdAndUpdate(
         { _id: req.params.id },
-        { avatar : "/"+req.file.path.replace(/\\/g, '/') },
+        { avatar : "/"+path.join('uploads', path.basename(req.file.path)).replace(/\\/g, '/')},
         { new: true } )
         .select("-__v")
         .then((docs)=> {

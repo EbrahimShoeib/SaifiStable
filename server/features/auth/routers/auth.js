@@ -190,7 +190,7 @@ router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res
   try {
     await User.findByIdAndUpdate(
       { _id: req.user.id },
-      { avatar : "/"+imagePath.replace(/\\/g, '/') },
+      { avatar : "/"+req.file.path.replace(/\\/g, '/') },
       { new: true } // Return the updated document
     )
     .then((docs)=> {
@@ -247,6 +247,7 @@ router.get('/images/:filename', (req, res) => {
   const imagePath = path.join(__dirname, 'uploads', filename);
   res.sendFile(imagePath);
 });
+
 
 
 module.exports = router;
