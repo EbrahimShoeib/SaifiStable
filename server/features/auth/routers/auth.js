@@ -12,6 +12,9 @@ const express = require("express");
 router = express.Router();
 
 router.post("/login", async (req, res ,next) => {
+
+  console.log("user is : "+req.body.email)
+
   const { error } = validationLoginUser(req.body);
   if (error) {
     res.status(400).json({
@@ -24,6 +27,7 @@ router.post("/login", async (req, res ,next) => {
   }else {
     User.findOne({ email: req.body.email })
     .then( async(user) => {
+
       if (user) {
         const { password, __v, ...other } = user._doc;
         const validPassword = await bcrypt.compare(
@@ -88,8 +92,6 @@ router.post("/login", async (req, res ,next) => {
       });
     });
   }
-
-  
 });
 
 router.patch("/update-admin", verifyTokenAndAdmin, async (req, res) => {
@@ -107,8 +109,8 @@ router.patch("/update-admin", verifyTokenAndAdmin, async (req, res) => {
     },
     { new: true }
   )
-    .select("-token -password -__v")
-    .then((docs) => {
+  .select("-__v -imageBuffer -imageType -token -password ")
+  .then((docs) => {
       if (docs) {
         res.status(200).json({
           status_code: 1,
@@ -140,7 +142,8 @@ router.patch("/update-admin", verifyTokenAndAdmin, async (req, res) => {
 
 router.get("/get-admin", verifyTokenAndAdmin, async (req, res) => {
   User.findById(req.user.id)
-    .select("-token -password -__v")
+    .select("-__v -imageBuffer -imageType -token -password ")
+
     .then((docs) => {
       if (docs) {
         res.status(200).json({
@@ -181,18 +184,15 @@ router.get("/get-password", async (req, res) => {
 
 router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res) => {
 
-  console.log(req.file)
+  console.log(req.file.buffer)
 
   try {
-    await User.findByIdAndUpdate(
-      { _id: req.user.id },
-      { 
-        imageBuffer: req.file.buffer ,
-        imageType : req.file.mimetype 
-      },
-      { new: true } 
-    )
-    .select("-__v -imageBuffer -imageType")
+    const user = await User.findById(req.user.id )
+
+    user.imageBuffer = req.file.buffer
+    user.imageType = req.file.mimetype
+
+    user.save()
     .then((docs)=> {
       if(docs){
     
@@ -236,8 +236,6 @@ router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res
       }
     });
   }
-
-
 })
 
 router.get("/uploads/:id",async (req,res) => {

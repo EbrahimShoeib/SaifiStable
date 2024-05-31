@@ -32,7 +32,7 @@ const userSchema =new mongoose.Schema({
         type:String,
         required:false
     },
-     imageBuffer :{
+    imageBuffer :{
         type: Buffer || null,
         required:false
     },
@@ -40,6 +40,7 @@ const userSchema =new mongoose.Schema({
         type: String || null,
         required:false
     },
+
 
 })
 

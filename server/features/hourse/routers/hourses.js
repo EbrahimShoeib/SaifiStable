@@ -61,4 +61,9 @@ router.post(
   HourseController.uploadHourseImage
 );
 
+router.get(
+  "/upload-image/:id",
+  HourseController.getHourseImage
+);
+
 module.exports = router;

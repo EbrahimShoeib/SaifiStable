@@ -281,30 +281,35 @@ class HourseController {
 
   static async uploadHourseImage(req, res) {
     try {
-      Hourse.findByIdAndUpdate(
-        { _id: req.params.id },
-        { avatar: "/" + path.join('uploads', path.basename(req.file.path)).replace(/\\/g, '/') },
-        { new: true }
-      )
-        .select("-__v")
-        .then((docs) => {
-          if (docs) {
-            res.status(200).json({
-              status_code: 1,
-              message: "Got the Hourse successfuly",
-              data: docs,
-            });
-          } else {
-            res.status(404).json({
-              status_code: ApiErrorCode.notFound,
-              message: "Didnt found the Hourse in our records",
-              data: null,
-              error: {
-                message: "Didnt found the Hourse in our records",
-              },
-            });
-          }
-        })
+      const hourse = await Hourse.findById(req.params.id )
+
+      hourse.imageBuffer = req.file.buffer
+      hourse.imageType = req.file.mimetype
+
+      hourse.save()
+      .then((docs)=> {
+        if(docs){
+      
+          const {password,__v,token,...other} = docs._doc
+      
+          res.status(200).json({
+            status_code: 1,
+            message: "This is a hashed password",
+            data: {
+              ...other,
+            },
+          });
+        }else {
+          res.status(404).json({
+            status_code: ApiErrorCode.notFound,
+            message: "User not found",
+            data: null,
+            error : {
+              message : "didn't find the user you are looking for"
+            }
+          });
+        }
+      })
         .catch((error) => {
           res.status(500).json({
             status_code: ApiErrorCode.internalError,
@@ -326,6 +331,32 @@ class HourseController {
       });
     }
   }
+
+  static async getHourseImage(req,res){
+    try {
+
+      const hourse = await Hourse.findById(req.params.id);
+  
+      if (!hourse) {
+        return res.status(404).send('Image not found.');
+      }
+  
+      res.set('Content-Type', hourse.imageType);
+      res.send(hourse.imageBuffer);
+  
+    } catch (error) {
+      res.status(500).json({
+        status_code: ApiErrorCode.internalError,
+        message: error.message,
+        data: null,
+        error : {
+          message : error.message
+        }
+      });
+    }
+  }
+
+
 }
 
 module.exports = HourseController;

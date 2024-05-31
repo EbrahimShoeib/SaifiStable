@@ -24,11 +24,14 @@ const instractorSchema = mongoose.Schema({
         required:true,
         enum:["male","female"]
     },
-    avatar :{
+    imageBuffer :{
+        type: Buffer || null,
+        required:false
+    },
+    imageType : {
         type: String || null,
-        required:false,
-        default : null
-    }
+        required:false
+    },
 })
 
 const instractor = mongoose.model("instractor",instractorSchema)

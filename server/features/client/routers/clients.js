@@ -100,6 +100,16 @@ router.post(
   ClientController.uploadClientImage
 );
 
+/**
+* @desc Get all Clients
+* @route api/Client/
+* @method Get
+* @access private
+*/
+router.get(
+  "/upload-image/:id",
+  ClientController.getClientImage
+);
 
 
 module.exports = router;

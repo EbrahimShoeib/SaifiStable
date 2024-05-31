@@ -245,56 +245,89 @@ router
       });
   });
 
-router.post(
-  "/upload-image/:id",
-  upload.single('image'),
-  async (req,res) => {
-    try{
-      instractor.findByIdAndUpdate(
-        { _id: req.params.id },
-        { avatar : "/"+path.join('uploads', path.basename(req.file.path)).replace(/\\/g, '/')},
-        { new: true } )
-        .select("-__v")
+  router.post(
+    "/upload-image/:id",
+    upload.single('image'),
+    async (req, res) => {
+      try {
+        const Instractor = await instractor.findById(req.params.id )
+
+        Instractor.imageBuffer = req.file.buffer
+        Instractor.imageType = req.file.mimetype
+
+        Instractor.save()
         .then((docs)=> {
           if(docs){
+        
+            const {password,__v,token,...other} = docs._doc
+        
             res.status(200).json({
               status_code: 1,
-              message: "Got the Hourse successfuly",
-              data: docs,
+              message: "This is a hashed password",
+              data: {
+                ...other,
+              },
             });
           }else {
             res.status(404).json({
               status_code: ApiErrorCode.notFound,
-              message: "Didnt found the Hourse in our records",
+              message: "User not found",
               data: null,
-              error: {
-                message: "Didnt found the Hourse in our records",
-              },
+              error : {
+                message : "didn't find the user you are looking for"
+              }
             });
           }
         })
-        .catch((error)=> {
-          res.status(500).json({
-            status_code: ApiErrorCode.internalError,
-            message: error.message,
-            data: null,
-            error: {
+          .catch((error) => {
+            res.status(500).json({
+              status_code: ApiErrorCode.internalError,
               message: error.message,
-            },
+              data: null,
+              error: {
+                message: error.message,
+              },
+            });
           });
-        })
-    } catch(error){
-      res.status(500).json({
-        status_code: ApiErrorCode.internalError,
-        message: error.message,
-        data: null,
-        error: {
+      } catch (error) {
+        res.status(500).json({
+          status_code: ApiErrorCode.internalError,
           message: error.message,
-        },
-      });
+          data: null,
+          error: {
+            message: error.message,
+          },
+        });
+      }
     }
-    
-  }
-);
 
+  );
+
+  router.get(
+    "/upload-image/:id",
+    async (req, res) => {
+      try {
+
+        const Instractor = await instractor.findById(req.params.id);
+    
+        if (!Instractor) {
+          return res.status(404).send('Image not found.');
+        }
+    
+        res.set('Content-Type', Instractor.imageType);
+        res.send(Instractor.imageBuffer);
+    
+      } catch (error) {
+        res.status(500).json({
+          status_code: ApiErrorCode.internalError,
+          message: error.message,
+          data: null,
+          error : {
+            message : error.message
+          }
+        });
+      }
+    }
+
+  );
 module.exports = router;
