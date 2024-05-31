@@ -195,9 +195,9 @@ router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res
     user.save()
     .then((docs)=> {
       if(docs){
-    
+
         const {password,__v,token,...other} = docs._doc
-    
+
         res.status(200).json({
           status_code: 1,
           message: "This is a hashed password",
