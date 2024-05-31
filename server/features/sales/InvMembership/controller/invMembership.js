@@ -105,13 +105,7 @@ class invMembershipController {
     } else {
       InvMembership.findOne({ clientId: req.body.clientId })
         .then((docs) => {
-          if (docs) {
-            res.status(400).json({
-              status_code: ApiErrorCode.validation,
-              message: "InvMembership is already found",
-              data: null,
-            });
-          } else {
+          
             new InvMembership({
               clientId: req.body.clientId,
               membershipType: req.body.membershipType,
@@ -143,7 +137,7 @@ class invMembershipController {
                   },
                 });
               });
-          }
+          
         })
         .catch((error) => {
           res.status(500).json({

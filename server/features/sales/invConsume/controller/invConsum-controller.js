@@ -99,15 +99,9 @@ class InvConsumeController {
         },
       });
     } else {
-        invConsume.find({ invConsumedItemName: req.body.invConsumedItemName })
+        invConsume.find()
         .then((docs) => {
-          if (!docs) {
-            res.status(400).json({
-              status_code: ApiErrorCode.validation,
-              message: "invConsume is already found",
-              data: null,
-            });
-          } else {
+         
             new invConsume({
                 invConsumedItemName: req.body.invConsumedItemName,
                 invConsumedQuantity: req.body.invConsumedQuantity,
@@ -133,7 +127,7 @@ class InvConsumeController {
                   },
                 });
               });
-          }
+          
         })
         .catch((error) => {
           res.status(500).json({

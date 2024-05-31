@@ -97,16 +97,9 @@ class InventoryController {
         },
       });
     } else {
-        Inventory.find({ itemName: req.body.itemName })
+        Inventory.find()
         .then((docs) => {
-          if (!docs) {
-            res.status(400).json({
-              status_code: ApiErrorCode.validation,
-              message: "menuItemName is already found",
-              data: null,
-            });
-            
-          } else {
+         
             new Inventory({
             itemName: req.body.itemName,
               quantity: req.body.quantity,
@@ -134,7 +127,7 @@ class InventoryController {
                   },
                 });
               });
-          }
+          
         })
         .catch((error) => {
           res.status(500).json({
