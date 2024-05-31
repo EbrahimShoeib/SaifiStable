@@ -1,4 +1,5 @@
 //import token
+const {verifyTokenAndAdmin} = require('../../../core/middleware/verify-token')
 const express = require("express");
 router = express.Router();
 const upload = require("../../../core/utils/upload");
@@ -13,7 +14,7 @@ const ClientController = require("../controllers/client-controller")
  * @access private
  */
 router.post(
-  "/",
+  "/",verifyTokenAndAdmin,
    ClientController.createNewClient
 );
 
@@ -26,7 +27,7 @@ router.post(
  * @access private
  */
 router.get(
-  "/:id",
+  "/:id",verifyTokenAndAdmin,
    ClientController.getClientById
 );
 
@@ -39,7 +40,7 @@ router.get(
 * @access private
 */
 router.get(
-  "/",
+  "/",verifyTokenAndAdmin,
    ClientController.getAllClients
 );
 
@@ -52,7 +53,7 @@ router.get(
  * @access private
  */
 router.patch(
-  "/:id",
+  "/:id",verifyTokenAndAdmin,
    ClientController.updateClientById
 );
 
@@ -65,10 +66,10 @@ router.patch(
  * @access private
  */
 router.delete(
-  "/:id",
+  "/:id",verifyTokenAndAdmin,
    ClientController.deleteClientById
 );
-
+//verifyTokenAndAdmin
 
 
 /**
@@ -78,7 +79,7 @@ router.delete(
  * @access private
  */
 router.patch(
-  "/membership-status/:id",
+  "/membership-status/:id",verifyTokenAndAdmin,
    ClientController.updateClientMembershipStatus
 );
 
@@ -91,7 +92,7 @@ router.patch(
 */
 
 
-router.get("/search",ClientController.search)
+router.get("/search",verifyTokenAndAdmin,ClientController.search)
 
 // Route to serve the uploaded images
 router.post(

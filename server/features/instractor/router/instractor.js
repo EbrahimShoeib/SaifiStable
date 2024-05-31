@@ -3,11 +3,12 @@ const { instractor,createInstractorValidation,updateInstractorValidation } = req
 const ApiErrorCode = require("../../../core/errors/apiError");
 const upload = require("../../../core/utils/upload");
 const path = require('path')
+const {verifyTokenAndAdmin} = require('../../../core/middleware/verify-token')
 
 router = express.Router();
 
 router
-  .route("/")
+  .route("/",verifyTokenAndAdmin)
   .get(async (req, res) => {
     const pageSize = 10; // Number of documents per page
 

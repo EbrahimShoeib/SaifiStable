@@ -4,9 +4,10 @@ import ImageUploadInput from '@/components/shared/all/ImageUploadInput'
 import Input from '@/components/shared/all/Input'
 import Loader from '@/components/layout/Loader'
 import PageContent from '@/components/layout/PageContent'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiSolidPencil } from 'react-icons/bi'
 import { FaUserCircle } from 'react-icons/fa'
+import { checkImgUrl } from '@/utils/chekImgUrl'
 
 type setInputState = (newState:string) => void
 
@@ -55,6 +56,13 @@ function SettingsPageContent({
 
         file && reader.readAsDataURL(file)
     }
+    
+
+    const [avatarUrl,setAvatarUrl] = useState<string>('')
+
+    useEffect(()=>{
+        checkImgUrl(avatar,()=>setAvatarUrl(avatar))
+    },[avatar])
 
     const inputs:Input[] = [
         {
@@ -97,8 +105,10 @@ function SettingsPageContent({
                         <div className='border-primary border-4 relative aspect-square rounded-full w-[120px]'>
                             <ImageUploadInput onChange={changeAvatar} formDataFile={image} setFormDataFile={setImage}>
                                 {
-                                    Boolean(avatar) ? 
-                                    (<img className=' w-full block object-cover aspect-square rounded-full overflow-hidden' src={avatar}/>) :
+                                    Boolean(avatarUrl) ? 
+                                    (<img 
+                                        className=' w-full block object-cover aspect-square rounded-full overflow-hidden' src={avatarUrl}/>
+                                    ) :
                                     (<FaUserCircle className='w-full text-light-grey h-full'/>)
                                 }
                                 

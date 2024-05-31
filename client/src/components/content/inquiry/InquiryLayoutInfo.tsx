@@ -13,7 +13,7 @@ function InquiryLayoutInfo({item}:{item:InquiryLayoutItemInfos}) {
                         Boolean(avatarUrl) ? 
                         (<img
                             className=' w-full block object-cover aspect-square rounded-full overflow-hidden' 
-                            src={`${BASE_URL}${authRoute}${avatarUrl}`}/>) :
+                            src={`${BASE_URL}${avatarUrl}`}/>) :
                         (<FaUserCircle className='w-full h-full'/>)
                     }
                 </div>

@@ -2,7 +2,7 @@ import PageContent from '@/components/layout/PageContent'
 import Loader from '@/components/layout/Loader'
 import ResourcesCard from '@/components/shared/resources/ResourcesCard'
 import React from 'react'
-import { horsesRoute } from '@/constants/api'
+import { BASE_URL, horsesImageUploadRoute, horsesRoute } from '@/constants/api'
 import NoDataFound from '@/components/shared/all/NoDataFound'
 
 type HorsesPageProps = {
@@ -37,7 +37,7 @@ function HorsesPageContent({isDataHere,response,refetch}:HorsesPageProps) {
                                             route={horsesRoute}
                                             title={horse.hourseName}
                                             _id={horse._id}
-                                            imgUrl={horse.avatar}
+                                            imgUrl={`${BASE_URL}${horsesImageUploadRoute}/${horse._id}`}
                                             inquiryRoute="horse"
                                         />
                                     ))

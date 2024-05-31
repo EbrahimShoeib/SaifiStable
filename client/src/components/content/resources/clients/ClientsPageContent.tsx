@@ -2,7 +2,7 @@ import PageContent from '@/components/layout/PageContent'
 import Loader from '@/components/layout/Loader'
 import ResourcesCard from '@/components/shared/resources/ResourcesCard'
 import React from 'react'
-import { clientsRoute } from '@/constants/api'
+import { BASE_URL, clientImageUploadRoute, clientsRoute } from '@/constants/api'
 import NoDataFound from '@/components/shared/all/NoDataFound'
 
 type ClientsPageProps = {
@@ -40,7 +40,7 @@ function ClientsPageContent({ isDataHere, response ,refetch}:ClientsPageProps) {
                                                     }}
                                                     title={client.username}
                                                     _id={client._id}
-                                                    imgUrl={client.avatar}
+                                                    imgUrl={`${BASE_URL}${clientImageUploadRoute}/${client._id}`}
                                                     inquiryRoute={'client'}
                                                 />
                                             ))

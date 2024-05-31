@@ -1,6 +1,7 @@
 //const hourseController = require("../controller/horses-controller")
 
 const upload = require("../../../core/utils/upload");
+const {verifyTokenAndAdmin} = require('../../../core/middleware/verify-token')
 
 const HourseController =require("../controller/horses-controller")
 const express = require("express");
@@ -15,7 +16,7 @@ router = express.Router();
  * @method Post
  * @access public
  */
-router.post("/", HourseController.createNewHourse);
+router.post("/",verifyTokenAndAdmin, HourseController.createNewHourse);
 
 /**
  * @desc Get Hourses
@@ -23,7 +24,7 @@ router.post("/", HourseController.createNewHourse);
  * @method Get
  * @access public
  */
-router.get("/",HourseController.getAllHourses);
+router.get("/",verifyTokenAndAdmin,HourseController.getAllHourses);
 
 /**
  * @desc Get Hourse By id
@@ -31,7 +32,7 @@ router.get("/",HourseController.getAllHourses);
   * @method Get
   * @access public
 */
-router.get("/:id",HourseController.getHourseById);
+router.get("/:id",verifyTokenAndAdmin,HourseController.getHourseById);
 
 /**
  * @desc Update Hourse
@@ -39,7 +40,7 @@ router.get("/:id",HourseController.getHourseById);
  * @method put
  * @access public
  */
-router.patch("/:id",HourseController.updateHourse)
+router.patch("/:id",verifyTokenAndAdmin,HourseController.updateHourse)
 
 /**
  * @desc  Hourse
@@ -47,7 +48,7 @@ router.patch("/:id",HourseController.updateHourse)
  * @method delete
  * @access public
  */
-router.delete("/:id",HourseController.deleteHourse)
+router.delete("/:id",verifyTokenAndAdmin,HourseController.deleteHourse)
 
 /**
 * @desc Get all Clients

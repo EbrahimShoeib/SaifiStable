@@ -138,7 +138,6 @@ function HorsePageInputs({
                     {submitButtonLabel}
                 </button>
             </div>
-
     
         </PageContent>
     )

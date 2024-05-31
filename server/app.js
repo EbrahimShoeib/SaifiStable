@@ -76,12 +76,12 @@ app.use((req, res, next) => {
 
 //Sourcess
 app.use("/api/auth", authRouter)
-app.use("/api/client",verifyTokenAndAdmin, clientRouter)
-app.use("/api/hourse",verifyTokenAndAdmin,hourseRouter)
+app.use("/api/client", clientRouter)
+app.use("/api/hourse",hourseRouter)
 app.use("/api/membershipType",verifyTokenAndAdmin,membershipTypeRouter)
 app.use("/api/membership-status",verifyTokenAndAdmin,membershipStatusRouter)
 app.use("/api/hourse-category",verifyTokenAndAdmin,hourseCategoryRouter)
-app.use("/api/instractor",verifyTokenAndAdmin,instractorRouter)
+app.use("/api/instractor",instractorRouter)
 app.use("/api/gender",verifyTokenAndAdmin,gendersRouter)
 
 
