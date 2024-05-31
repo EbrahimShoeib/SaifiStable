@@ -102,15 +102,9 @@ class consumeController {
         },
       });
     } else {
-        Consume.find({ menuItemName: req.body.menuItemName })
+        Consume.find()
         .then((docs) => {
-          if (!docs) {
-            res.status(400).json({
-              status_code: ApiErrorCode.validation,
-              message: "consumed is already found",
-              data: null,
-            });
-          } else {
+          
             new Consume({
                 consumedItemName: req.body.consumedItemName,
                 clientId: req.body.clientId,
@@ -145,7 +139,7 @@ class consumeController {
                   },
                 });
               });
-          }
+          
         })
         .catch((error) => {
           res.status(500).json({

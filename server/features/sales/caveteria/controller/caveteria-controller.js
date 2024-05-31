@@ -94,15 +94,9 @@ class caveteriaController {
         },
       });
     } else {
-        Caveteria.findOne({ menuItemName: req.body.menuItemName })
+        Caveteria.find()
         .then((docs) => {
-          if (docs) {
-            res.status(400).json({
-              status_code: ApiErrorCode.validation,
-              message: "menuItemName is already found",
-              data: null,
-            });
-          } else {
+         
             new Caveteria({
               menuItemName: req.body.menuItemName,
               quantity: req.body.quantity,
@@ -127,7 +121,7 @@ class caveteriaController {
                   },
                 });
               });
-          }
+          
         })
         .catch((error) => {
           res.status(500).json({
