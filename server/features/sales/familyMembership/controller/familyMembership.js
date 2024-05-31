@@ -17,7 +17,7 @@ const {
           { type: { $regex: regexQuery } },
           { famillyName: { $regex: regexQuery } },
         ],
-      })
+      }) 
       .select("-__v")
       .skip(skip) // Skip documents
       .sort( 
