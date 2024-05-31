@@ -2,7 +2,7 @@
 
 import InquiryPageLayout from "@/components/content/inquiry/InquiryPageLayout"
 import PageHeader from "@/components/layout/PageHeader"
-import { instructorInquiryRoute } from "@/constants/api"
+import { instructorInquiryRoute, instructorsImageUploadRoute } from "@/constants/api"
 import { httpGetServices } from "@/services/httpGetService"
 import { priceFormatter } from "@/utils/priceFormatter"
 import { useParams } from "next/navigation"
@@ -67,7 +67,7 @@ function InstructorPage() {
                     dataCellsOrder:dataCellsOrder
                 }}
                 item={{
-                    avatarUrl:instructor?.avatar,
+                    avatarUrl:`${instructorsImageUploadRoute}/${instructor?._id}`,
                     itemData:instructor,
                     itemDataSubTitles:{
                         age:instructor?.age||'no-age',

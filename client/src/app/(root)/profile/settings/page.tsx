@@ -22,7 +22,8 @@ function SettingsPage() {
     const [address,setAddress] = useState<string>('')
     const [image,setImage] = useState<FormData>()
     const [isLoading,setIsLoading] = useState<boolean>(true)
-    
+    const [_id,set_id] = useState<string>('')
+
     const successPopUp = useSuccessPopUp()
     const fetchData = async () => {
         const {data} = await httpGetServices(getAdminRoute)
@@ -31,8 +32,9 @@ function SettingsPage() {
             setEmail(data.email)
             setMobile(data.mobile)
             setAddress(data.address)
-            setAvatar(`${BASE_URL}${authRoute}${data.avatar}`)
             setIsLoading(false)
+            set_id(data._id)
+
             setUser(data)
         }
     }
@@ -40,6 +42,9 @@ function SettingsPage() {
     useEffect(()=>{
         fetchData()
     },[])
+    useEffect(()=>{
+        _id&&setAvatar(`${BASE_URL}${authRoute}/uploads/${_id}`)
+    },[_id])
 
     const handleAdminUpdate =() => {
       
@@ -55,11 +60,11 @@ function SettingsPage() {
             const data = res.data
             if (Boolean(data)) {
                 successPopUp("data updated successfully")
+                fetchData()
                 const response = await httpPostFormDataService(userAvatarUploadRoute,image)
                 if (Boolean(response.data)) {
-                    fetchData()
+                    _id&&setAvatar(`${BASE_URL}${authRoute}/uploads/${_id}`)
                     successPopUp("avatar updated successfully")
-
                 }
             }
         }

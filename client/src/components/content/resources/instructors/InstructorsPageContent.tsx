@@ -2,7 +2,7 @@ import PageContent from '@/components/layout/PageContent'
 import Loader from '@/components/layout/Loader'
 import ResourcesCard from '@/components/shared/resources/ResourcesCard'
 import React from 'react'
-import { instructorsRoute } from '@/constants/api'
+import { BASE_URL, instructorsImageUploadRoute, instructorsRoute } from '@/constants/api'
 import NoDataFound from '@/components/shared/all/NoDataFound'
 
 type ClientsPageProps = {
@@ -35,7 +35,7 @@ function InstructorsPageContent({isDataHere,response,refetch}:ClientsPageProps) 
                                             }}
                                             title={instructor.instractorName}
                                             _id={instructor._id}
-                                            imgUrl={instructor.avatar}
+                                            imgUrl={`${BASE_URL}${instructorsImageUploadRoute}/${instructor._id}`}
                                             route={instructorsRoute}
                                             inquiryRoute="instructor"
                                         />

@@ -2,7 +2,7 @@
 import InquiryPageLayout from '@/components/content/inquiry/InquiryPageLayout'
 import PageHeader from '@/components/layout/PageHeader'
 import Table from '@/components/layout/Table'
-import { clientInquiryRoute } from '@/constants/api'
+import { clientImageUploadRoute, clientInquiryRoute } from '@/constants/api'
 import { httpGetServices } from '@/services/httpGetService'
 import { getReadableDate } from '@/utils/getReadableDate'
 import { priceFormatter } from '@/utils/priceFormatter'
@@ -103,7 +103,7 @@ function ClientPage() {
                     dataCellsOrder:dataCellsOrder
                 }}
                 item={{
-                    avatarUrl:client?.avatar,
+                    avatarUrl:`${clientImageUploadRoute}/${client?._id}`,
                     itemData:client,
                     itemDataSubTitles:{
                         email:client?.email||'no-email',

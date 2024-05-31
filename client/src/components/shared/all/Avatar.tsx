@@ -2,27 +2,36 @@
 
 import { BASE_URL, authRoute } from '@/constants/api'
 import { getUser } from '@/services/authServices'
+import { checkImgUrl } from '@/utils/chekImgUrl'
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
+import { FaUserCircle } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { TiArrowSortedDown } from 'react-icons/ti'
 
 type AvatarImageProps = {
-    onClick?:()=>void,
-    user:any
+    avatar:any
 }
 
-const AvatarImage = ({onClick,user}:AvatarImageProps) => {
+const AvatarImage = ({avatar}:AvatarImageProps) => {
+
+    const [avatarUrl,setAvatarUrl] = useState<string>('')
+
+
+    useEffect(()=>{
+        checkImgUrl(avatar,()=>setAvatarUrl(avatar))
+    },[avatar])
+
     return (
-        <div onClick={onClick && onClick} className='w-[30px] flex justify-center items-center bg-zinc-400 aspect-square overflow-hidden rounded-full '>
+        <div className='w-[30px] flex justify-center items-center bg-dark-grey aspect-square overflow-hidden rounded-full '>
             {
-                Boolean(user?.avatar) ?
+                Boolean(avatarUrl) ?
                 (<img 
                     className='w-full h-full object-cover' 
-                    src={`${BASE_URL}${authRoute}${user?.avatar||""}`} 
+                    src={avatarUrl} 
                     alt="img" 
                 />) :
-                (<p className='text-2xl uppercase text-smokey-white'>{user?.fullName?.[0] || ""}</p>)
+                (<FaUserCircle className='w-full h-full uppercase text-zinc-400'/>)
             }
         </div>
     )
@@ -31,19 +40,19 @@ const AvatarImage = ({onClick,user}:AvatarImageProps) => {
 function Avatar() {
 
     const [user,setUser] = useState<any>({})
-    const avatarOverlay = useRef<HTMLDivElement>(null)
 
     useEffect(()=>{
         setUser(getUser())
     },[])
     
+    const avatar = `${BASE_URL}${authRoute}/uploads/${user?._id}`
    
     return (
         <>
             
             <div className='relative avatar'>
                 <div className='flex h-[40px] items-center gap-2'>
-                    <AvatarImage user={user}/>
+                    <AvatarImage avatar={avatar}/>
                     <TiArrowSortedDown className='text-xl text-primary' />
                 </div>
                 
@@ -51,7 +60,7 @@ function Avatar() {
                     
                     <div className='flex-1 flex-col flex justify-center items-center'>
                         <div className='w-fit h-fit rounded-full border-2 border-primary'>
-                            <AvatarImage user={user}/>
+                            <AvatarImage avatar={avatar}/>
                         </div>
                         <p className='font-bold text-dark-grey mt-2 text-lg truncate '>{user?.fullName}</p>
                         <p className='text-primary text-sm'>{user?.isAdmin && "admin"}</p>

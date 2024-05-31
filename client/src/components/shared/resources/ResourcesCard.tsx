@@ -3,9 +3,10 @@
 import { BASE_URL, authRoute } from '@/constants/api'
 import { usePopUp } from '@/hooks/usePopUp'
 import { httpDeleteService } from '@/services/httpDeleteService'
+import { checkImgUrl } from '@/utils/chekImgUrl'
 import Link from 'next/link'
 import {  usePathname } from 'next/navigation'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiSolidImageAlt } from 'react-icons/bi'
 import { BsQuestionCircle } from 'react-icons/bs'
 import { FaTrash } from 'react-icons/fa'
@@ -30,11 +31,15 @@ function ResourcesCard({imgUrl,title,titles,_id,route,refetch,inquiryRoute}:Reso
     const pathName = usePathname()
     const popUp = usePopUp()
 
-    
+    const [img,setImg] = useState('')
+
+    useEffect(()=>{
+        checkImgUrl(imgUrl,()=>setImg(imgUrl))
+
+    },[imgUrl])
 
     const {mutate} = useMutation({
         mutationFn: async () => httpDeleteService(`${route}/${_id}`),
-        mutationKey:["delete","resourceItem",_id],
         onSuccess:async () => {
             refetch()
             popUp({
@@ -72,10 +77,11 @@ function ResourcesCard({imgUrl,title,titles,_id,route,refetch,inquiryRoute}:Reso
     return (
         <div className='h-[340px] duration-300 hover:shadow-lg hover:!border-opacity-10 border-opacity-40 border border-dark-grey text-center items-center justify-between w-full flex flex-col  rounded-3xl'>
             <div className='h-[150px] w-full px-4 pt-4'>
-                <div className={`w-full h-full  rounded-2xl overflow-hidden ${!imgUrl && "bg-light-grey bg-opacity-40"}`}>
+                <div className={`w-full h-full  rounded-2xl overflow-hidden ${!img && "bg-light-grey bg-opacity-40"}`}>
                     {
-                        !imgUrl ? (<BiSolidImageAlt className='w-full text-4xl h-full text-dark-grey opacity-30' />) :(
-                            <img src={`${BASE_URL}${authRoute}${imgUrl}`} 
+                        !Boolean(img) ? (<BiSolidImageAlt className='w-full text-4xl h-full text-dark-grey opacity-30' />) :(
+                            <img 
+                                src={img} 
                                 className='w-full bg-light-grey h-[180px] object-cover' 
                                 alt="image not found"
                             />)

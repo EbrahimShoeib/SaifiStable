@@ -2,7 +2,7 @@
 
 import InquiryPageLayout from '@/components/content/inquiry/InquiryPageLayout'
 import PageHeader from '@/components/layout/PageHeader'
-import { horseInquiryRoute } from '@/constants/api'
+import { horseInquiryRoute, horsesImageUploadRoute } from '@/constants/api'
 import { httpGetServices } from '@/services/httpGetService'
 import { priceFormatter } from '@/utils/priceFormatter'
 import { useParams } from 'next/navigation'
@@ -68,7 +68,7 @@ function HorsePage() {
                     dataCellsOrder:dataCellsOrder
                 }}
                 item={{
-                    avatarUrl:horse?.avatar,
+                    avatarUrl:`${horsesImageUploadRoute}/${horse?._id}`,
                     itemData:horse,
                     itemDataSubTitles:{
                         age:horse?.age || 'no-age',
