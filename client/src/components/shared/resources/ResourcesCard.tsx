@@ -74,6 +74,7 @@ function ResourcesCard({imgUrl,title,titles,_id,route,refetch,inquiryRoute}:Reso
         })
     }
 
+    
     return (
         <div className='h-[340px] duration-300 hover:shadow-lg hover:!border-opacity-10 border-opacity-40 border border-dark-grey text-center items-center justify-between w-full flex flex-col  rounded-3xl'>
             <div className='h-[150px] w-full px-4 pt-4'>
