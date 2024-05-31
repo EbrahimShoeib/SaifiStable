@@ -62,7 +62,7 @@ function SettingsPage() {
                 successPopUp("data updated successfully")
                 fetchData()
                 const response = await httpPostFormDataService(userAvatarUploadRoute,image)
-                if (Boolean(response.data)) {
+                if (Boolean(response.data)&&Boolean(image)) {
                     _id&&setAvatar(`${BASE_URL}${authRoute}/uploads/${_id}`)
                     successPopUp("avatar updated successfully")
                 }
