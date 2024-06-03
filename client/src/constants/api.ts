@@ -1,4 +1,4 @@
-export const BASE_URL :string =  'https://saifiserver-a45zj.ondigitalocean.app/api' //"https://saifistable-1.onrender.com/api"
+export const BASE_URL :string =  'saifistableserver-v95je.ondigitalocean.app/api'
 
 // "http://localhost:8000/api"
 // export const BASE_URL :string =
