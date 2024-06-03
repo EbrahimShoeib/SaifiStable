@@ -2,8 +2,7 @@ const mongoose = require( "mongoose")
 
 
 async function connectingDataBase ( ) {
-
-
+     
     mongoose.connect(
     //process.env.CONNECTION_STRING,
     process.env.MONGO_URI,
