@@ -51,14 +51,14 @@ function Dashboard() {
                             horsesQty={data?.totalHourse}
                             instructorsQty={data?.totalInstructor}
                         />
-                        <div className='my-9 flex gap-4 h-[300px]'>
+                        <div className='my-6 flex gap-4 h-[300px]'>
                             <DashboardChartsWidget
                                 columns={columns}
                                 total={columnsTotals}
                             />
                             {/* <DashBoardActionsWidget/> */}
                         </div>
-                        <div className='w-full flex gap-4 h-[300px] flex-1'>
+                        <div className='w-full flex gap-4 h-[320px] flex-1'>
                             <DashboardCafeteriaWidget
                                 cafeterias={data?.latestCafeteriaOrders}
                             />

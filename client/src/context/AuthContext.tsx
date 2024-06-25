@@ -1,7 +1,7 @@
 'use client'
 
 import { getToken } from "@/services/authServices"
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useLayoutEffect, useState } from "react"
 
 export type AuthProviderData = {
     isAuth: boolean,
@@ -19,7 +19,7 @@ function AuthProvider({children}:Children) {
         setIsAuth
     }
     
-    useEffect(()=>{
+    useLayoutEffect(()=>{
         const token :string|null = getToken() 
         if (token) {
             setIsAuth(true)
