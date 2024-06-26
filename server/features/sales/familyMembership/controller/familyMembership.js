@@ -22,7 +22,7 @@ const {
       .skip(skip) // Skip documents
       .sort( 
         { votes: 1, _id: -1 }).limit(pageSize) 
-        // .populate("clientId")
+        .populate("members")
         .then(async (docs) => {
           if (docs) {
             const totalRecords = await familyMembership.countDocuments();
@@ -110,7 +110,7 @@ const {
               new familyMembership({
                 famillyName: req.body.famillyName,
                 members: req.body.members,
-                membershipTtpe: req.body.membershipTtpe,
+                membershipType: req.body.membershipType,
                 endDate: req.body.endDate,
                 startDate: req.body.startDate,
                 status: req.body.status,
@@ -167,7 +167,7 @@ const {
               $set: {
                 famillyName: req.body.famillyName,
                 members: req.body.members,
-                membershipTtpe: req.body.membershipTtpe,
+                membershipType: req.body.membershipType,
                 endDate: req.body.endDate,
                 startDate: req.body.startDate,
                 status: req.body.status,
