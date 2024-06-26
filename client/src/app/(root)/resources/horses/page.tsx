@@ -34,7 +34,7 @@ function HorsesPage() {
                         searchUrl:horsesRoute,
                         options:horsesRes?.data?.hourse.map((item:any) => ({
                             name:item?.hourseName,
-                            href:`/resources/horses/${item?._id}/edit`
+                            href:`/resources/horses/${item?._id}/showCard`
                         })),
                         setResponse:setHorsesRes,
                         placeholder:"search horse"

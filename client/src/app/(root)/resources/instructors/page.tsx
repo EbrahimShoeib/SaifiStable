@@ -40,7 +40,7 @@ function InstructorsPage() {
                         searchUrl:instructorsRoute,
                         options:instructorsRes?.data?.instractor.map((item:any) => ({
                             name:item?.instractorName,
-                            href:`/resources/instructors/${item?._id}/edit`
+                            href:`/resources/instructors/${item?._id}/showCard`
                         })),
                         setResponse:setInstructorsRes,
                         placeholder:"search instructor"

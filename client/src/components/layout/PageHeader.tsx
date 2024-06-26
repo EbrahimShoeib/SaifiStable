@@ -14,9 +14,10 @@ type PageHeaderProps = {
     title:any,
     showBackButton?:boolean,
     children?:any,
-    linksSearchBox?:LinksSearchBox
+    linksSearchBox?:LinksSearchBox,
+    addNewButtonURL?:string,
 }
-function PageHeader({linksSearchBox,children,addNewButtonLabel,title,showBackButton}:PageHeaderProps) {
+function PageHeader({linksSearchBox,addNewButtonURL,children,addNewButtonLabel,title,showBackButton}:PageHeaderProps) {
 
     const pathname = usePathname()
     
@@ -56,7 +57,7 @@ function PageHeader({linksSearchBox,children,addNewButtonLabel,title,showBackBut
                                     Boolean(addNewButtonLabel) ? (
                                         <Link
                                             className='page_header_button' 
-                                            href={`${pathname}/add-new`} 
+                                            href={addNewButtonURL?addNewButtonURL:`${pathname}/add-new`} 
                                         >
                                             <GrAdd />
                                             <span>{addNewButtonLabel}</span>

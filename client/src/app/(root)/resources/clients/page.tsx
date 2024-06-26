@@ -35,11 +35,12 @@ function ClientsPage() {
                         searchUrl:clientsRoute,
                         options:clientsRes?.data?.client.map((item:any) => ({
                             name:item?.username,
-                            href:`/resources/clients/${item?._id}/edit`
+                            href:`/resources/clients/${item?._id}/showCard`
                         })),
                         setResponse:setClientsRes,
                         placeholder:"search client"
                     }}
+                    addNewButtonURL={`/resources/clients/add-new`}
                     addNewButtonLabel='add new client'
                 />
                 <ClientsPageContent 

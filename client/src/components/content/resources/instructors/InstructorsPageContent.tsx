@@ -29,6 +29,8 @@ function InstructorsPageContent({isDataHere,response,refetch}:ClientsPageProps) 
                                         <ResourcesCard
                                             key={idx}
                                             refetch={refetch}
+                                            deleteRedirectURL="/resources/instructors"
+                                            editPageURL={`/resources/instructors/${instructor._id}/edit`}
                                             titles={{
                                                 email:instructor.email,
                                                 mobile:instructor.phoneNumber

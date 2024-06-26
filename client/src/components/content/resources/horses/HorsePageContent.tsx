@@ -30,6 +30,8 @@ function HorsesPageContent({isDataHere,response,refetch}:HorsesPageProps) {
                                         <ResourcesCard
                                             refetch={refetch}
                                             key={idx}
+                                            deleteRedirectURL="/resources/horses"
+                                            editPageURL={`/resources/horses/${horse._id}/edit`}
                                             titles={{
                                                 age:horse.age,
                                                 gender:horse.gender

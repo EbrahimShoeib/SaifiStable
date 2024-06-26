@@ -33,6 +33,8 @@ function ClientsPageContent({ isDataHere, response ,refetch}:ClientsPageProps) {
                                                 <ResourcesCard
                                                     key={idx}
                                                     refetch={refetch}
+                                                    deleteRedirectURL="/resources/clients"
+                                                    editPageURL={`/resources/clients/${client._id}/edit`}
                                                     route={clientsRoute}
                                                     titles={{
                                                         email:client.email,

@@ -8,7 +8,8 @@ function DashboardInquiryWidget({
     items
 }:DashboardInquiryWidgetProps) {
 
-  
+    
+
     
     return (
         <div className='h-full flex gap-5 flex-col w-1/2 bg-white border border-dark-grey border-opacity-30 rounded-lg p-4 '>
@@ -34,11 +35,11 @@ function DashboardInquiryWidget({
 
                                     <p className='text-center w-full mb-1 text-lg text-light-grey semibold'>client</p>
 
-                                    <div className='h-fit w-full items-center flex p-2 flex-col bg-light-grey rounded-lg bg-opacity-5 border-2 border-dark-grey border-opacity-10'>
+                                    <div className='h-[200px] w-full items-center flex p-2 flex-col bg-light-grey rounded-lg bg-opacity-5 border-2 border-dark-grey border-opacity-10'>
                                         <div className='w-8 aspect-square flex justify-center items-center overflow-hidden rounded-full bg-light-grey bg-opacity-40 '>
                                             <img src={`${BASE_URL}${authRoute}${item?.avatar}`} className=' w-full h-full' alt="avatar" />
                                         </div>
-                                        <p className='text-primary mt-2 mb-1'>{item?.username}</p>
+                                        <p className='text-primary mt-2 mb-1 text-center'>{item?.username}</p>
 
                                         
                                         <div className='flex w-full divide-y-[1px] divide-dark-grey divide-opacity-40 flex-1 flex-col'>

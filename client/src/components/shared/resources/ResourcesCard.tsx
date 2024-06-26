@@ -6,6 +6,7 @@ import { httpDeleteService } from '@/services/httpDeleteService'
 import { checkImgUrl } from '@/utils/chekImgUrl'
 import Link from 'next/link'
 import {  usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { BiSolidImageAlt } from 'react-icons/bi'
 import { BsQuestionCircle } from 'react-icons/bs'
@@ -22,14 +23,17 @@ export type ResourcesCardProps = {
     titles:any,
     _id:string,
     route:string,
-    refetch: () => void,
-    inquiryRoute:string
+    refetch?: () => void,
+    inquiryRoute:string,
+    deleteRedirectURL:string,
+    editPageURL:string,
 }
-function ResourcesCard({imgUrl,title,titles,_id,route,refetch,inquiryRoute}:ResourcesCardProps) {
+function ResourcesCard({imgUrl,editPageURL,deleteRedirectURL,title,titles,_id,route,refetch,inquiryRoute}:ResourcesCardProps) {
     
     const titlesKeys = Object.keys(titles)    
     const pathName = usePathname()
     const popUp = usePopUp()
+    const router = useRouter()
 
     const [img,setImg] = useState('')
 
@@ -40,8 +44,10 @@ function ResourcesCard({imgUrl,title,titles,_id,route,refetch,inquiryRoute}:Reso
 
     const {mutate} = useMutation({
         mutationFn: async () => httpDeleteService(`${route}/${_id}`),
+        
         onSuccess:async () => {
-            refetch()
+            refetch && refetch()
+            router.push(deleteRedirectURL)
             popUp({
                 popUpIcon:<IoMdCheckmarkCircleOutline/>,
                 popUpMessage:"item deleted successfully",
@@ -115,7 +121,7 @@ function ResourcesCard({imgUrl,title,titles,_id,route,refetch,inquiryRoute}:Reso
                         <FaTrash/>
                     </button>
                     <span className='h-[30px] w-[1.25px] bg-dark-grey opacity-40'/>
-                    <Link className='hover:text-primary text-2xl duration-300' href={`${pathName}/${_id}/edit`}>
+                    <Link className='hover:text-primary text-2xl duration-300' href={editPageURL}>
                         <RiPencilFill />
                     </Link>
                 </div>
