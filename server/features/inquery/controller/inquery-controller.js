@@ -148,12 +148,10 @@ class InqueryController {
         {
           Hourse.findById(req.params.id)
               .select("-__v")
-
               .then(async (docs) => {
-
                 if(docs){
-                    const InvConsume = await invConsume.findOne({hourseId : req.params.id})
-                    const daily = await Daily.findOne({hourseId : req.params.id})
+                    const InvConsume = await invConsume.findById(req.params.id)
+                    const daily = await Daily.findById(req.params.id)
                     .populate("clientId")
                       .populate("instractorId")
                       .populate("hourseId")
@@ -168,7 +166,6 @@ class InqueryController {
                           courses : daily
                         },
                     });
-
                 }else {
                     res.status(404).json({
                         status_code: ApiErrorCode.notFound,
