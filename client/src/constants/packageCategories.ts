@@ -1,10 +1,19 @@
 export const packageCategories = [
     {
-        name:"cat-1",
+        name:"basic",
         id:"1"
     },
     {
-        name:"cat-2",
+        name:"novice",
         id:"2"
-    }
+    },
+    {
+        name:"advance",
+        id:"3"
+    },
+    {
+        name:"junior team",
+        id:"4"
+    },
 ]
+
