@@ -8,6 +8,7 @@ import { useSuccessPopUp } from "@/hooks/useSuccessPopUp"
 import { httpGetServices } from "@/services/httpGetService"
 import { httpPatchService } from "@/services/httpPatchService"
 import { getIsoDate } from "@/utils/getIsoDate"
+import { getMembershipFamilyType } from "@/utils/getMembershipFamilyType"
 import { getMembershipStatus } from "@/utils/getMembershipStatus"
 import { getMembershipType } from "@/utils/getMembershipType"
 import { statusCodeIndicator } from "@/utils/statusCodeIndicator"
@@ -19,7 +20,7 @@ function EditFamilyMembershipPage() {
     const [startDate,setStartDate] = useState<string>("")
     const [endDate,setEndDate] = useState<string>("")
     const [familyName,setFamilyName] = useState<string>("")
-    const [members,setMembers] = useState<string>("")
+    const [members,setMembers] = useState<NameAndId>(null)
 
     const [status,setStatus] = useState<NameAndId>(null)
     const [membershipType,setMembershipType] = useState<NameAndId>(null)
@@ -34,11 +35,11 @@ function EditFamilyMembershipPage() {
     const {mutate} = useMutation({
         mutationFn:async () => httpPatchService(familyMembershipIdRoute,JSON.stringify({
             famillyName:familyName,
-            membershipTtpe:membershipType?.name,
+            membershipType:membershipType?.name,
             status:status?.name,
             startDate,
             endDate,
-            members
+            members:members?.id
            
         })),
         onSuccess:(res) => {
@@ -62,9 +63,13 @@ function EditFamilyMembershipPage() {
             if (Boolean(data)) {
                 console.log(data);
                 setFamilyName(data.famillyName)
-                setMembers(data.members)
+                const members = data.members ? {
+                    id:data.members._id,
+                    name:data.members.username
+                } : null
+                setMembers(members)
                 setStatus(getMembershipStatus(data.status))
-                setMembershipType(getMembershipType(data.membershipTtpe))
+                setMembershipType(getMembershipFamilyType(data.membershipType))
                 data.startDate&&setStartDate(getIsoDate(data.startDate))
                 data.endDate&&setEndDate(getIsoDate(data.endDate))
                 setIsLoading(false)

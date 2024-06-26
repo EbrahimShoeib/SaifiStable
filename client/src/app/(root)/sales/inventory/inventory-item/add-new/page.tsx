@@ -20,7 +20,7 @@ function AddNewInventoryItemPage() {
     const [price,setPrice] = useState<string>("")
     //const [date,setDate] = useState<string>("no-date")
     const [description,setDescription] = useState<string>("")
-    const [measure,setMeasure] = useState<string>("")
+    const [measure,setMeasure] = useState<NameAndId>(null)
 
     const [isLoading,setIsLoading] = useState<boolean>(false)
 
@@ -35,7 +35,7 @@ function AddNewInventoryItemPage() {
             type:type?.name,
             price,
             date:"no-date",
-            measure,
+            measure:measure?.name,
             itemDescription:description
         })),
         onSuccess:(res) => {

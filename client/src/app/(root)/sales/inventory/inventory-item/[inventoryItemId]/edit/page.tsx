@@ -8,6 +8,7 @@ import { usePopUp } from "@/hooks/usePopUp"
 import { useSuccessPopUp } from "@/hooks/useSuccessPopUp"
 import { httpGetServices } from "@/services/httpGetService"
 import { httpPatchService } from "@/services/httpPatchService"
+import { getInventoryMeasures } from "@/utils/getInventoryMeasure"
 import { getInventoryType } from "@/utils/getInventoryType"
 import { statusCodeIndicator } from "@/utils/statusCodeIndicator"
 import { useParams, useRouter } from "next/navigation"
@@ -23,7 +24,7 @@ function EditInventoryItemPage() {
     const [price,setPrice] = useState<string>("")
     //const [date,setDate] = useState<string>("no-date")
     const [description,setDescription] = useState<string>("")
-    const [measure,setMeasure] = useState<string>("")
+    const [measure,setMeasure] = useState<NameAndId>(null)
 
     const [isLoading,setIsLoading] = useState<boolean>(true)
 
@@ -40,7 +41,7 @@ function EditInventoryItemPage() {
             type:type?.name,
             price,
             //date:"no-date",
-            measure,
+            measure:measure?.name,
             itemDescription:description
         })),
         onSuccess:(res) => {
@@ -68,7 +69,7 @@ function EditInventoryItemPage() {
                 setPrice(data.price)
                 //setDate(data.date)
                 setDescription(data.itemDescription)
-                setMeasure(data.measure)
+                setMeasure(getInventoryMeasures(data.measure)||null)
                 setIsLoading(false)
             }
             

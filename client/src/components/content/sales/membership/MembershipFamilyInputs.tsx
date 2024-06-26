@@ -1,8 +1,13 @@
 import PageContent from "@/components/layout/PageContent"
+import SearchBox from "@/components/shared/all/SearchBox"
 import ResourcesDropList from "@/components/shared/resources/ResourcesDropList"
 import ResourcesInput from "@/components/shared/resources/ResourcesInput"
+import { clientsRoute } from "@/constants/api"
 import { memberShipStatuses } from "@/constants/memberShipStatuses"
 import { memberShipTypes } from "@/constants/memberShipTypes"
+import { membershipFamilyTypes } from "@/constants/membershipFamilyTypes"
+import { toNameAndId } from "@/utils/toNameAndId"
+import { useState } from "react"
 
 type MembershipFamilyInputsProps = {
     startDate:string,
@@ -17,8 +22,8 @@ type MembershipFamilyInputsProps = {
     isLoading:boolean,
     familyName:string,
     setFamilyName:(newState:string)=> void,
-    members:string,
-    setMembers:(newState:string)=> void,
+    members:NameAndId,
+    setMembers:(newState:NameAndId)=> void,
     submitButtonLabel:string
 }
 
@@ -39,6 +44,10 @@ function MembershipFamilyInputs({
     setMembers,
     submitButtonLabel
 }:MembershipFamilyInputsProps) {
+
+
+    const [clientsRes,setClientsRes] = useState<any>()
+
     return (
         <PageContent>
             <div className='max-w-[600px] flex flex-col gap-10 my-16 mx-8'>
@@ -49,12 +58,14 @@ function MembershipFamilyInputs({
                     label='family name'
                     type='text'
                 />
-                <ResourcesInput
-                    value={members} 
-                    setValue={setMembers}
-                    placeholder="enter family members"
+                <SearchBox
+                    options={toNameAndId(clientsRes?.data?.client,'username','_id')}
+                    searchUrl={clientsRoute}
+                    setListValue={setMembers}
+                    setResponse={setClientsRes}
                     label='members'
-                    type='text'
+                    listValue={members}
+                    placeholder='enter client name'
                 />
       
                 <ResourcesDropList
@@ -83,7 +94,7 @@ function MembershipFamilyInputs({
                     setListValue={setMembershipType}
                     placeholder="select membership type"
                     label='membership type'
-                    options={memberShipTypes}
+                    options={membershipFamilyTypes}
                 />  
                 
    
