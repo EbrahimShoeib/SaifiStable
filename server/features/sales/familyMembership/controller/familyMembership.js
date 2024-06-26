@@ -60,6 +60,8 @@ const {
     }
     static async getfamilyMembershipById(req, res) {
       await familyMembership.findById(req.params.id)
+      .populate("members")
+
         // .populate("clientId")
         .then((docs) => {
           if (docs) {
