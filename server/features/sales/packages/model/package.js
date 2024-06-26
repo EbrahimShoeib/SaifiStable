@@ -7,7 +7,6 @@ const packageSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-
   category: {
     type: String,
     enum: ["basic","novice","advance","junior team"],

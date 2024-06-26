@@ -30,17 +30,15 @@ const dailySchema = new mongoose.Schema({
     require: true,
 
     enum: ["paid", "pending"],
-   
   },
   note: {
     type: String,
     require: true,
-   
+
   },
   courseTime: {
     type: String,
     require: true,
-   
   },
   hourseId : {
     type : mongoose.Types.ObjectId,
