@@ -27,6 +27,7 @@ const inventorySchema = new Schema({
   },
   measure: {
     type: String,
+    enum:["liter (L)","milliliter (mL)","kilogram (kg)","gram (g)","meter (m)","centimeter (cm)","millimeter (mm)","kilometer (km)","square meter (m²)","cubic meter (m³)"],
     required: true
   },
   date:{
@@ -45,7 +46,7 @@ function createInventoryItemValidation(obj){
         type : joi.string().required(),
         price :joi.number().required() ,
         itemDescription : joi.string().required(),
-        measure : joi.string().required(),
+        measure : joi.string().required().valid("liter (L)","milliliter (mL)","kilogram (kg)","gram (g)","meter (m)","centimeter (cm)","millimeter (mm)","kilometer (km)","square meter (m²)","cubic meter (m³)"),
         date:joi.string().required()
     })
     return schema.validate(obj);
