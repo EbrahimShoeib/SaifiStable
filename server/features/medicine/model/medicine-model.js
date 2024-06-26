@@ -26,12 +26,10 @@ const MedicineSchema = mongoose.Schema({
         type : Number,
         required: true,
     },
-
     dosage : {
         type : Number,
         required: true,
     },
-
 })
 
 const Medicine = mongoose.model("Medicine",MedicineSchema)

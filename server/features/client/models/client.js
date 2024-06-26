@@ -5,8 +5,12 @@ const ClientSchema =new mongoose.Schema({
     username: {
         type : String,
         required:true,
-
     },
+    hourseId : {
+        type : mongoose.Types.ObjectId,
+        ref: "Hourse",
+        required: true,
+           },
     email: {
         type : String,
         required:true,
@@ -65,6 +69,7 @@ function clientValidation(obj){
         username : joi.string().required().min(2),
         email : joi.string().required().min(2),
         phone : joi.string().required().min(2),
+        hourseId:joi.string().required().min(2).max(50),
         gender : joi.string().valid('male', 'female').required(),
         membershipStatus : joi.string().valid('active', 'inactive').required(),
         membershipType : joi.string().valid('family', 'individual').required(),
@@ -85,6 +90,7 @@ function updateValidation(obj){
         username : joi.string().min(2),
         email : joi.string().min(2),
         phone : joi.string().min(2),
+        hourseId:joi.string().required().min(2).max(50),
         gender : joi.string().valid('male', 'female').required(),
         membershipStatus : joi.string().valid('active', 'inactive').required(),
         membershipType : joi.string().valid('family', 'individual').required(),
