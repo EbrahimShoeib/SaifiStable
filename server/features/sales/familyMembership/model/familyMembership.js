@@ -48,7 +48,7 @@ function createNewfamilyMembership(obj) {
   });
   return schema.validate(obj);
 }
-
+ 
 function updatefamilyMembership(obj) {
   const schema = joi.object({
     famillyName: joi.string().required(),
