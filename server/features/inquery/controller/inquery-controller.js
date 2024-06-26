@@ -34,12 +34,15 @@ class InqueryController {
 
                       const cafateria = await Consume.find({clientId : req.params.id})
                       const invMembership = await InvMembership.find({clientId : req.params.id})
-
-                        res.status(200).json({
+                        
+                      
+                      const populatedClient = await docs.populate("hourseId")
+                        
+                      res.status(200).json({
                             status_code: 1,
                             message: "Got the clients successfuly",
                             data: {
-                              client: docs,
+                              client: populatedClient,
                               courses: daily,
                               cafateria : cafateria,
                               membershipStatus : invMembership

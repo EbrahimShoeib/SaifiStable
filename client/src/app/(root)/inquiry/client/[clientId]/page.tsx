@@ -109,7 +109,8 @@ function ClientPage() {
                         email:client?.email||'no-email',
                         mobile:client?.phone||'no-mobile',
                         gender:client?.gender||'no-gender',
-                        age:client?.age||'no-age'
+                        age:client?.age||'no-age',
+                        "horse id":client?.hourseId?.hourseId
                     },
                     role:"client",
                     title:client?.username
