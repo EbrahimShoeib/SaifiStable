@@ -14,7 +14,7 @@ function AddNewFamilyMembershipPage() {
     const [startDate,setStartDate] = useState<string>("")
     const [endDate,setEndDate] = useState<string>("")
     const [familyName,setFamilyName] = useState<string>("")
-    const [members,setMembers] = useState<string>("")
+    const [members,setMembers] = useState<NameAndId>(null)
 
     const [status,setStatus] = useState<NameAndId>(null)
     const [membershipType,setMembershipType] = useState<NameAndId>(null)
@@ -27,11 +27,11 @@ function AddNewFamilyMembershipPage() {
     const {mutate} = useMutation({
         mutationFn:async () => httpPostService(familyMembershipRoute,JSON.stringify({
             famillyName:familyName,
-            membershipTtpe:membershipType?.name,
+            membershipType:membershipType?.name,
             status:status?.name,
             startDate,
             endDate,
-            members
+            members:members?.id
 
            
         })),

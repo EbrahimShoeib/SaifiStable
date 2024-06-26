@@ -1,6 +1,7 @@
 import PageContent from '@/components/layout/PageContent'
 import ResourcesDropList from '@/components/shared/resources/ResourcesDropList'
 import ResourcesInput from '@/components/shared/resources/ResourcesInput'
+import { inventoryMeasures } from '@/constants/inventoryMeasures'
 import { inventoryTypes } from '@/constants/inventoryTypes'
 import React from 'react'
 
@@ -12,8 +13,8 @@ type InventoryItemInputsProps = {
     setQuantity: (newState: string) => void,
     price:string,
     setPrice: (newState: string) => void,
-    measure:string,
-    setMeasure:(newState: string) => void,
+    measure:NameAndId,
+    setMeasure:(newState: NameAndId) => void,
     type:NameAndId,
     setType: (newState:NameAndId) => void,
     isLoading:boolean,
@@ -64,12 +65,12 @@ function InventoryItemInputs({
                     label='price'
                     type='number'
                 />      
-                <ResourcesInput
-                    value={measure} 
-                    setValue={setMeasure}
-                    placeholder="measure"
-                    label='measure'
-                    type='number'
+                <ResourcesDropList
+                    listValue={measure}
+                    setListValue={setMeasure}
+                    options={inventoryMeasures}
+                    placeholder='Select Measure'
+                    label='Measure'
                 />  
                 <ResourcesInput
                     value={description} 

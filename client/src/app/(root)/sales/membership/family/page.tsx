@@ -38,7 +38,7 @@ function FamilyMembershipPage() {
     const tableBodyItemCellKeys = [
         "famillyName",
         "members",
-        "membershipTtpe",
+        "membershipType",
         "startDate",
         "endDate",
         "status"
@@ -52,7 +52,8 @@ function FamilyMembershipPage() {
             {item.status}
         </span>),
         startDate:item.startDate ?getReadableDate(item.startDate) :'no-date',
-        endDate:item.endDate ?getReadableDate(item.endDate) :'no-date'
+        endDate:item.endDate ?getReadableDate(item.endDate) :'no-date',
+        members:item.members?.username
     }))
     
     
