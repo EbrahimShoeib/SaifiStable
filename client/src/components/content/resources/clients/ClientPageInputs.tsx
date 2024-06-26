@@ -1,12 +1,16 @@
 "use client"
 
 import PageContent from '@/components/layout/PageContent'
+import SearchBox from '@/components/shared/all/SearchBox'
 import ResourcesDropList from '@/components/shared/resources/ResourcesDropList'
 import ResourcesImageInput from '@/components/shared/resources/ResourcesImageInput'
 import ResourcesInput from '@/components/shared/resources/ResourcesInput'
+import { horsesRoute } from '@/constants/api'
 import { genders } from '@/constants/genders'
 import { memberShipStatuses } from '@/constants/memberShipStatuses'
 import { memberShipTypes } from '@/constants/memberShipTypes'
+import { toNameAndId } from '@/utils/toNameAndId'
+import { useState } from 'react'
 
 
 
@@ -30,7 +34,10 @@ type ClientPageInputsProps = {
     formDataFile:FormData|undefined,
     setFormDataFile:(state:FormData)=> void,
     isLoading:boolean,
-    submitButtonLabel:string
+    submitButtonLabel:string,
+    horse:NameAndId,
+    setHorse:(newState:NameAndId) => void,
+ 
 }
 
 function ClientPageInputs({
@@ -52,9 +59,12 @@ function ClientPageInputs({
     formDataFile,
     setFormDataFile,
     isLoading,
-    submitButtonLabel
+    submitButtonLabel,
+    horse,
+    setHorse
     
 }:ClientPageInputsProps) {
+    const [horsesRes,setHorsesRes] = useState<any>()
 
     return (
         <PageContent>
@@ -74,7 +84,15 @@ function ClientPageInputs({
                         label='email'
                         type='text'
                     />
-
+                    <SearchBox
+                        options={toNameAndId(horsesRes?.data?.hourse,'hourseName','_id')}
+                        searchUrl={horsesRoute}
+                        setListValue={setHorse}
+                        setResponse={setHorsesRes}
+                        label='horse'
+                        listValue={horse}
+                        placeholder='enter horse name'
+                    />
                     <ResourcesInput
                         value={phone} 
                         setValue={setPhone}

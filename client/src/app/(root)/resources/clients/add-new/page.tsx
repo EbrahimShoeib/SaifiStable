@@ -19,6 +19,8 @@ function AddNewClientPage() {
     const [phone,setPhone] = useState<string>('')
     const [age,setAge] = useState<string>('')
     const [gender,setGender] = useState<NameAndId>(null)
+    const [horse,setHorse] = useState<NameAndId>(null)
+
     const [membershipStatus,setMembershipStatus] = useState<NameAndId>(null)
     const [membershipType,setMembershipType] = useState<NameAndId>(null)
     const [formDataFile,setFormDataFile] = useState<FormData>()
@@ -31,6 +33,7 @@ function AddNewClientPage() {
         membershipStatus:membershipStatus?.name,
         membershipType:membershipType?.name,
         phone,
+        hourseId:horse?.id,
         age,
     }
     const failedPopUp = useFailedPopUp()
@@ -95,6 +98,8 @@ function AddNewClientPage() {
                 formDataFile={formDataFile}
                 setFormDataFile={setFormDataFile}
                 isLoading={isLoading}
+                horse={horse}
+                setHorse={setHorse}
                 submitButtonLabel="add new client"
             />
         </>
