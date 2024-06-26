@@ -75,7 +75,6 @@ function createHourseValidation(obj){
 
     })
     return schema.validate(obj);
-
 }
 
 
