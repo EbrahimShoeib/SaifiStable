@@ -29,6 +29,7 @@ function ClientEditPage() {
     const [membershipStatus,setMembershipStatus] = useState<NameAndId>(null)
     const [membershipType,setMembershipType] = useState<NameAndId>(null)
     const [formDataFile,setFormDataFile] = useState<FormData>()
+    const [horse,setHorse] = useState<NameAndId>(null)
 
     const [isLoading,setIsLoading] = useState<boolean>(true)
 
@@ -52,6 +53,11 @@ function ClientEditPage() {
                 setMembershipStatus(getMembershipStatus(membershipStatus))
                 setMembershipType(getMembershipType(membershipType))
                 setIsLoading(false)
+                const horse = data.hourseId ? {
+                    id:data.hourseId._id,
+                    name:data.hourseId.hourseName
+                }: null
+                setHorse(horse)
             }
         }
         fetchClient()
@@ -64,6 +70,7 @@ function ClientEditPage() {
                 email,
                 phone,
                 age,
+                hourseId:horse?.id,
                 gender:gender?.name,
                 membershipStatus:membershipStatus?.name||null,
                 membershipType:membershipType?.name||null
@@ -122,6 +129,8 @@ function ClientEditPage() {
                 membershipType={membershipType}
                 setMembershipType={setMembershipType}
                 formDataFile={formDataFile}
+                horse={horse}
+                setHorse={setHorse}
                 setFormDataFile={setFormDataFile}
                 submitButtonLabel="save client data"
             />
