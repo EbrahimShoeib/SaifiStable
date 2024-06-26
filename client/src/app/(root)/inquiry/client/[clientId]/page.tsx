@@ -110,7 +110,7 @@ function ClientPage() {
                         mobile:client?.phone||'no-mobile',
                         gender:client?.gender||'no-gender',
                         age:client?.age||'no-age',
-                        "horse id":client?.hourseId?.hourseId
+                        "horse id":client?.hourseId?.horseID
                     },
                     role:"client",
                     title:client?.username
