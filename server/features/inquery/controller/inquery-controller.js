@@ -146,16 +146,14 @@ class InqueryController {
     static async getHourseInqueries (req, res) {
       try {
         {
-
           Hourse.findById(req.params.id)
               .select("-__v")
 
               .then(async (docs) => {
 
                 if(docs){
-
-                    const InvConsume = await invConsume.find({hourseId : req.params.id})
-                    const daily = await Daily.find({hourseId : req.params.id})
+                    const InvConsume = await invConsume.findOne({hourseId : req.params.id})
+                    const daily = await Daily.findOne({hourseId : req.params.id})
                     .populate("clientId")
                       .populate("instractorId")
                       .populate("hourseId")
