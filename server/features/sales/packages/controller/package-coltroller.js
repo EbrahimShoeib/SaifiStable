@@ -1,5 +1,5 @@
 const ApiErrorCode = require("../../../../core/errors/apiError");
-const {Daily} = require("../../../management/daily/model/dailyModel")
+const { Daily } = require("../../../management/daily/model/dailyModel");
 const {
   Package,
   createNewPackage,
@@ -21,10 +21,10 @@ class packageController {
         { status: { $regex: regexQuery } },
       ],
     })
-    .select("-__v")
-    .skip(skip) // Skip documents
-    .sort( 
-      { votes: 1, _id: -1 }).limit(pageSize) 
+      .select("-__v")
+      .skip(skip) // Skip documents
+      .sort({ votes: 1, _id: -1 })
+      .limit(pageSize)
       .then(async (docs) => {
         if (docs) {
           const totalRecords = await Package.countDocuments();
@@ -97,49 +97,41 @@ class packageController {
       });
   }
   static async createNawPackage(req, res) {
-    
-      const { error } = createNewPackage(req.body);
-      if (error) {
-        res.status(400).json({
-          status_code: ApiErrorCode.validation,
+    const { error } = createNewPackage(req.body);
+    if (error) {
+      res.status(400).json({
+        status_code: ApiErrorCode.validation,
+        message: error.message,
+        data: null,
+        error: {
           message: error.message,
-          data: null,
+        },
+      });
+    } else {
+      try {
+        const docs = await new Package({
+          category: req.body.category,
+          lessons: req.body.lessons,
+          startDate: req.body.startDate,
+          endDate: req.body.endDate,
+          status: req.body.status,
+          name: req.body.name,
+        }).save();
+        res.status(200).json({
+          status_code: 1,
+          message: "Package is created successfuly",
+          data: docs,
+        });
+      } catch (error) {
+        res.status(500).json({
+          status_code: ApiErrorCode.internalError,
+          message: "internal server error , please try again",
           error: {
-            message: error.message,
+            error: error.message,
           },
         });
-      } else {
-      
-            try {
-              const docs= await new Package({
-                category: req.body.category,
-                lessons: req.body.lessons,
-                startDate: req.body.startDate,
-                endDate: req.body.endDate,
-                status: req.body.status,
-                name: req.body.name,
-              })
-                .save()
-                
-                  res.status(200).json({
-                    status_code: 1,
-                    message: "Package is created successfuly",
-                    data: docs,
-                  });
-                  
-            } catch (error) {
-              res.status(500).json({
-                status_code: ApiErrorCode.internalError,
-                message: "internal server error , please try again",
-                error: {
-                  error: error.message,
-                },
-              });
-            }
-          
-          
       }
-    
+    }
   }
   static async updatePackage(req, res) {
     const { error } = updatePackage(req.body);
@@ -167,7 +159,6 @@ class packageController {
                   endDate: req.body.endDate,
                   status: req.body.status,
                   name: req.body.name,
-
                 },
               },
               { new: true }
@@ -237,35 +228,37 @@ class packageController {
         });
       });
   }
-  static async getCoursesById (req,res) {
-
-    await Daily.find({clientId:req.params.id})
-    .then((docs)=>{
-      console.log({clientId:req.params.id})
-      if(docs){
-        res.status(200).json({
-          status_code:0,
-          message:"success to get client Course",
-          Courses :{data:docs},
-        })
-      }else{
-        res.status(404).json({
-          status_code:ApiErrorCode.notFound,
-          message:"Client Id Is Not Found",
-          data:null,
-        })
-      }
-    })
-    .catch((error)=>{
-      res.status(500).json({
-        status_code:ApiErrorCode.internalError,
-        message:"Internal Server Error , Please try again",
-        data:null,
-        error:{
-          error:error.message
+  static async getCoursesById(req, res) {
+    await Daily.find({ clientId: req.params.id })
+      .populate("clientId")
+      .populate("instractorId")
+      .populate("hourseId")
+      .then((docs) => {
+        console.log({ clientId: req.params.id });
+        if (docs) {
+          res.status(200).json({
+            status_code: 0,
+            message: "success to get client Course",
+            Courses: { data: docs },
+          });
+        } else {
+          res.status(404).json({
+            status_code: ApiErrorCode.notFound,
+            message: "Client Id Is Not Found",
+            data: null,
+          });
         }
-    })
-    })
+      })
+      .catch((error) => {
+        res.status(500).json({
+          status_code: ApiErrorCode.internalError,
+          message: "Internal Server Error , Please try again",
+          data: null,
+          error: {
+            error: error.message,
+          },
+        });
+      });
   }
 }
 
