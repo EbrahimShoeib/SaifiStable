@@ -14,7 +14,7 @@ const packageSchema = mongoose.Schema({
   },
   lessons: {
     type: Number,
-    enum:["1","2","3","4","5","6","7","8","9","10"],
+    enum:[1,2,3,4,5,6,7,8,9,10],
     required: true,
   },
   startDate: {
@@ -37,7 +37,7 @@ const Package = mongoose.model("Package", packageSchema);
 function createNewPackage(obj) {
   const schema = joi.object({
     category:joi.string().required().min(1).max(20).valid("basic","novice","advance","junior team"),
-    lessons:joi.number().required().min(1).max(20).valid("1","2","3","4","5","6","7","8","9","10"),
+    lessons:joi.number().required().min(1).max(20).valid(1,2,3,4,5,6,7,8,9,10),
     startDate:joi.string().required().min(1).max(20),
     endDate:joi.string().required().min(1).max(20),
     status:joi.string().required().valid("expired","active").min(1).max(20),
@@ -49,7 +49,7 @@ function createNewPackage(obj) {
 function updatePackage(obj) {
   const schema = joi.object({
     category:joi.string().required().min(1).max(20).valid("basic","novice","advance","junior team"),
-    lessons:joi.number().required().min(1).max(20).valid("1","2","3","4","5","6","7","8","9","10"),
+    lessons:joi.number().required().min(1).max(20).valid(1,2,3,4,5,6,7,8,9,10),
     startDate:joi.string().required().min(1).max(20),
     endDate:joi.string().required().min(1).max(20),
     status:joi.string().required().valid("expired","active").min(1).max(20),
