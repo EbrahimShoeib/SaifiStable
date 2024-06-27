@@ -30,8 +30,8 @@ function ShowCard() {
                     title={"stables clients"}
                     linksSearchBox={{
                         searchUrl:clientsRoute,
-                        options:clientsRes?.data?.hourse.map((item:any) => ({
-                            name:item?.hourseName,
+                        options:clientsRes?.data?.client.map((item:any) => ({
+                            name:item?.username,
                             href:`/resources/clients/${item?._id}/showCard`
                         })),
                         setResponse:setClientsRes,
