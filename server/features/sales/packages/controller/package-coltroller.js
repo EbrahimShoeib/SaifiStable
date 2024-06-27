@@ -97,7 +97,7 @@ class packageController {
       });
   }
   static async createNawPackage(req, res) {
-    try {
+    
       const { error } = createNewPackage(req.body);
       if (error) {
         res.status(400).json({
@@ -109,33 +109,37 @@ class packageController {
           },
         });
       } else {
-       const docs= await new Package({
-          category: req.body.category,
-          lessons: req.body.lessons,
-          startDate: req.body.startDate,
-          endDate: req.body.endDate,
-          status: req.body.status,
-          name: req.body.name,
-        })
-          .save()
-          
-            res.status(200).json({
-              status_code: 1,
-              message: "Package is created successfuly",
-              data: docs,
-            });
+      
+            try {
+              const docs= await new Package({
+                category: req.body.category,
+                lessons: req.body.lessons,
+                startDate: req.body.startDate,
+                endDate: req.body.endDate,
+                status: req.body.status,
+                name: req.body.name,
+              })
+                .save()
+                
+                  res.status(200).json({
+                    status_code: 1,
+                    message: "Package is created successfuly",
+                    data: docs,
+                  });
+                  
+            } catch (error) {
+              res.status(500).json({
+                status_code: ApiErrorCode.internalError,
+                message: "internal server error , please try again",
+                error: {
+                  error: error.message,
+                },
+              });
+            }
           
           
       }
-    } catch (error) {
-      res.status(500).json({
-        status_code: ApiErrorCode.internalError,
-        message: "internal server error , please try again",
-        error: {
-          error: error.message,
-        },
-      });
-    }
+    
   }
   static async updatePackage(req, res) {
     const { error } = updatePackage(req.body);
