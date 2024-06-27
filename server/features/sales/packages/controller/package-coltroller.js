@@ -109,7 +109,7 @@ class packageController {
           },
         });
       } else {
-       const docs=  new Package({
+       const docs= await new Package({
           category: req.body.category,
           lessons: req.body.lessons,
           startDate: req.body.startDate,
@@ -130,7 +130,7 @@ class packageController {
     } catch (error) {
       res.status(500).json({
         status_code: ApiErrorCode.internalError,
-        message: "Package  Already Found",
+        message: "internal server error , please try again",
         error: {
           error: error.message,
         },
