@@ -8,6 +8,7 @@ import { usePopUp } from "@/hooks/usePopUp"
 import { useSuccessPopUp } from "@/hooks/useSuccessPopUp"
 import { httpGetServices } from "@/services/httpGetService"
 import { httpPatchService } from "@/services/httpPatchService"
+import { httpPostFormDataService } from "@/services/httpPostFormDataService"
 import { getCafeteriaItemType } from "@/utils/getCafeteriaItemType"
 import { getIsoDate } from "@/utils/getIsoDate"
 import { statusCodeIndicator } from "@/utils/statusCodeIndicator"
@@ -29,6 +30,7 @@ function MenuItemEditPage() {
     const [price,setPrice] = useState<string>("")
     const [date,setDate] = useState<string>("")
     const [isLoading,setIsLoading] = useState<boolean>(true)
+    const [formDataFile,setFormDataFile] = useState<FormData>()
 
     const failedPopUp = useFailedPopUp()
     const successPopUp = useSuccessPopUp()
@@ -61,11 +63,15 @@ function MenuItemEditPage() {
             price,
             date
         })),
-        onSuccess:(res) => {
+        onSuccess:async(res) => {
             const status = statusCodeIndicator(res.status_code) === "success" 
             
             if (status) {
                 successPopUp("item updated successfully")
+                if (res?.data?._id) {
+                    
+                    await handleImageUpload(res?.data?._id)
+                }
                 router.push("/sales/cafeteria/menu-item")
             }else {
                 failedPopUp(res.message)
@@ -73,7 +79,11 @@ function MenuItemEditPage() {
         },
         onError: () => failedPopUp()
     })
-
+    const handleImageUpload = async (id:string) => {
+        if (Boolean(formDataFile)) {
+            await httpPostFormDataService(`${cafeteriaMenuItemRoute}/${id}`,formDataFile)   
+        }
+    }
     return (
         <>
             <PageHeader
@@ -97,6 +107,8 @@ function MenuItemEditPage() {
                 setDate={setDate}
                 type={type}
                 setType={setType}
+                formDataFile={formDataFile}
+                setFormDataFile={setFormDataFile}
                 isLoading={isLoading}        
                 submitButtonLabel='save menu item'    
             />
