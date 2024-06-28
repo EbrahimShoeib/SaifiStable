@@ -214,5 +214,84 @@ class caveteriaController {
         });
       });
   }
+
+  static async uploadImage(req, res) {
+    try {
+      const caveteria = await Caveteria.findById(req.params.id )
+
+      caveteria.imageBuffer = req.file.buffer
+      caveteria.imageType = req.file.mimetype
+
+      caveteria.save()
+      .then((docs)=> {
+        if(docs){
+      
+          const {password,__v,token,...other} = docs._doc
+      
+          res.status(200).json({
+            status_code: 1,
+            message: "This is a hashed password",
+            data: {
+              ...other,
+            },
+          });
+        }else {
+          res.status(404).json({
+            status_code: ApiErrorCode.notFound,
+            message: "User not found",
+            data: null,
+            error : {
+              message : "didn't find the user you are looking for"
+            }
+          });
+        }
+      })
+        .catch((error) => {
+          res.status(500).json({
+            status_code: ApiErrorCode.internalError,
+            message: error.message,
+            data: null,
+            error: {
+              message: error.message,
+            },
+          });
+        });
+    } catch (error) {
+      res.status(500).json({
+        status_code: ApiErrorCode.internalError,
+        message: error.message,
+        data: null,
+        error: {
+          message: error.message,
+        },
+      });
+    }
+  }
+
+  static async getImage(req,res){
+    try {
+
+      const caveteria = await Caveteria.findById(req.params.id);
+  
+      if (!caveteria) {
+        return res.status(404).send('Image not found.');
+      }
+  
+      res.set('Content-Type', caveteria.imageType);
+      res.send(houcaveteriarse.imageBuffer);
+  
+    } catch (error) {
+      res.status(500).json({
+        status_code: ApiErrorCode.internalError,
+        message: error.message,
+        data: null,
+        error : {
+          message : error.message
+        }
+      });
+    }
+  }
+
+
 }
 module.exports = caveteriaController;
