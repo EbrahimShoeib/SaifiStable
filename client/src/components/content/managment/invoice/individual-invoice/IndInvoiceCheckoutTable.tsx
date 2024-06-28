@@ -1,12 +1,15 @@
+'use client'
 import Loader from '@/components/layout/Loader'
 import DropDownList from '@/components/shared/all/DropDownList'
 import Input from '@/components/shared/all/Input'
+import SearchBox from '@/components/shared/all/SearchBox'
+import { horsesRoute } from '@/constants/api'
 import { getPercentAmt } from '@/utils/getPercentageAmt'
-import React from 'react'
+import { toNameAndId } from '@/utils/toNameAndId'
+import React, { useState } from 'react'
 
 
 type IndInvoiceCheckoutTableProps = {
-    horses:NameAndId[]|[],
     horse:NameAndId,
     setHorse:(newHorse:NameAndId)=>void,
     checkoutDate:string,
@@ -22,7 +25,6 @@ type IndInvoiceCheckoutTableProps = {
     coursesTotal:number
 }
 function IndInvoiceCheckoutTable({
-    horses,
     horse,
     setHorse,
     checkoutDate,
@@ -37,11 +39,16 @@ function IndInvoiceCheckoutTable({
     isClientCoursesLoading,
     coursesTotal
 }:IndInvoiceCheckoutTableProps) {
+    const [horsesRes,setHorsesRes] = useState<any>()
     
-    const subtotal = coursesTotal - +discount + +debit
-    const tax = (subtotal * 0.16)
-    const total = subtotal + tax
-    
+    const taxRate = 16
+
+    const subtotal = coursesTotal + +debit
+    const taxAmount = subtotal * (taxRate / 100);
+    const amountAfterTax = subtotal + taxAmount;
+    const discountAmount = amountAfterTax * (+discount / 100);
+    const totalAmount = amountAfterTax - discountAmount;
+
     const cells = [
         {
             title:"lessons",
@@ -62,11 +69,11 @@ function IndInvoiceCheckoutTable({
         },
         {
             title:"tax 16(%)",
-            value:tax.toFixed(2),
+            value:taxAmount.toFixed(2),
         },
         {
             title:"Total",
-            value:total.toFixed(2)
+            value:totalAmount.toFixed(2)
         }
     ]
 
@@ -76,7 +83,7 @@ function IndInvoiceCheckoutTable({
                 <div className='h-[50px] px-2 grid items-center grid-cols-[repeat(4,1fr)] rounded-full bg-dark-grey'>
                     {
                         [
-                            "horse name",
+                            "date",
                             "description",
                             "horse name",
                             "debit"
@@ -103,12 +110,13 @@ function IndInvoiceCheckoutTable({
                         placeholder='description'
                     />
                     <div className='w-[170px]'>
-                        <DropDownList
+                        <SearchBox
                             listValue={horse}
-                            options={horses}
-                            placeholder='horse name'
+                            searchUrl={horsesRoute}
                             setListValue={setHorse}
-                            placeholderClassName='input '
+                            options={toNameAndId(horsesRes?.data?.hourse,'hourseName','_id')}
+                            setResponse={setHorsesRes}
+                            placeholder='search for horse'
                         />
                     </div>
                     <Input

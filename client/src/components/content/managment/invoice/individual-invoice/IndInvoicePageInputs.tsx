@@ -1,9 +1,12 @@
+'use client'
 import DropDownList from '@/components/shared/all/DropDownList'
 import Input from '@/components/shared/all/Input'
-import React from 'react'
+import SearchBox from '@/components/shared/all/SearchBox'
+import { clientsRoute } from '@/constants/api'
+import { toNameAndId } from '@/utils/toNameAndId'
+import React, { useState } from 'react'
 
 type IndInvoicePageInputsProps = { 
-    clients: NameAndId[]|[],
     client: NameAndId,
     setClient: (newState: NameAndId) => void,
     setStartDate: (newState: string) => void,
@@ -12,7 +15,7 @@ type IndInvoicePageInputsProps = {
     setEndDate: (newState: string) => void,
 }
 function IndInvoicePageInputs({
-    clients,
+    
     client,
     setClient,
     setStartDate,
@@ -20,6 +23,9 @@ function IndInvoicePageInputs({
     endDate,
     setEndDate
 }:IndInvoicePageInputsProps) {
+
+    const [clientsRes,setClientsRes] = useState<any>()
+
     return (
         <div className='w-full h-[100px] items-center flex'>
             <img src="/svgs/logo.svg" className='h-full block aspect-square' alt="logo" />
@@ -27,12 +33,20 @@ function IndInvoicePageInputs({
 
 
                 <div className='w-[200px] '>
-                    <DropDownList
+                    {/* <DropDownList
                         options={clients}
                         setListValue={setClient}
                         listValue={client}
                         placeholder='client name'
                         placeholderClassName='w-full font-semibold h-full rounded-lg text-dark-grey p-4 border border-dark-grey border-opacity-40'
+                    /> */}
+                    <SearchBox
+                        listValue={client}
+                        searchUrl={clientsRoute}
+                        setListValue={setClient}
+                        options={toNameAndId(clientsRes?.data?.client,'username','_id')}
+                        setResponse={setClientsRes}
+                        placeholder='search for client'
                     />
                 </div>
 

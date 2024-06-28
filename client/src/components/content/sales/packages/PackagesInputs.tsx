@@ -1,8 +1,10 @@
+'use client'
 import PageContent from "@/components/layout/PageContent"
 import ResourcesDropList from "@/components/shared/resources/ResourcesDropList"
 import ResourcesInput from "@/components/shared/resources/ResourcesInput"
 import { packageCategories } from "@/constants/packageCategories"
 import { packageStatuses } from "@/constants/packageStatuses"
+import { packagesLessons } from "@/constants/packagesLessons"
 
 
 type PackagesInputsProps = {
@@ -10,8 +12,8 @@ type PackagesInputsProps = {
     isLoading:boolean,
     category:NameAndId,
     setCategory:(newState:NameAndId) => void,
-    lessons:string,
-    setLessons:(newState:string) => void,
+    lessons:NameAndId,
+    setLessons:(newState:NameAndId) => void,
     startDate:string,
     setStartDate:(newState:string) => void,
     endDate:string,
@@ -52,12 +54,12 @@ function PackagesInputs({
                     placeholder="select Item Category"
                     label='category'
                 />
-                <ResourcesInput
-                    value={lessons} 
-                    setValue={setLessons}
-                    placeholder="Enter Lessons"
+                <ResourcesDropList
+                    listValue={lessons} 
+                    setListValue={setLessons}
+                    placeholder="select Lessons"
                     label='Lessons'
-                    type='number'
+                    options={packagesLessons}
                 />
                 <ResourcesInput
                     value={startDate} 

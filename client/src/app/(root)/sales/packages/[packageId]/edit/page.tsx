@@ -10,6 +10,7 @@ import { httpGetServices } from '@/services/httpGetService'
 import { httpPatchService } from '@/services/httpPatchService'
 import { getIsoDate } from '@/utils/getIsoDate'
 import { getPackageCategory } from '@/utils/getPackageCategory'
+import { getPackageLesson } from '@/utils/getPackageLesson'
 import { getPackageStatus } from '@/utils/getPackageStatus'
 import { statusCodeIndicator } from '@/utils/statusCodeIndicator'
 import { toNameAndId } from '@/utils/toNameAndId'
@@ -20,7 +21,7 @@ import { useMutation } from 'react-query'
 function PackageEditPage() {
     const [startDate,setStartDate] = useState<string>("")
     const [endDate,setEndDate] = useState<string>("")
-    const [lessons,setLessons] = useState<string>("")
+    const [lessons,setLessons] = useState<NameAndId>(null)
 
     const [status,setStatus] = useState<NameAndId>(null)
     const [category,setCategory] = useState<NameAndId>(null)
@@ -38,7 +39,7 @@ function PackageEditPage() {
     const {mutate} = useMutation({
         mutationFn:async () => httpPatchService(packageIdRoute,JSON.stringify({
             category:category?.name||"no-category",
-            lessons,
+            lessons:lessons?.name,
             startDate,
             endDate,
             status:status?.name,
@@ -72,7 +73,8 @@ function PackageEditPage() {
                 setName(itemData?.name)
                 setStartDate(getIsoDate(itemData?.startDate))
                 setEndDate(getIsoDate(itemData?.endDate))
-                setLessons(itemData?.lessons)
+                const lesson = itemData?.lessons ? getPackageLesson(itemData?.lessons) :null
+                setLessons(lesson)
                 setIsLoading(false)
             }
         }
