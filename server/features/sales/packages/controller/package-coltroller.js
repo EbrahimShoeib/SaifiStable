@@ -233,6 +233,7 @@ class packageController {
       .populate("clientId")
       .populate("instractorId")
       .populate("hourseId")
+      .populate("course")
       .then((docs) => {
         console.log({ clientId: req.params.id });
         if (docs) {

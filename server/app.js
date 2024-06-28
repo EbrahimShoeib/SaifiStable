@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 
 //>>>>>>>>>>>>>>>>>>>>>>> Routes <<<<<<<<<<<<<<<<<
 
-//Sourcess
+//resourcess
 app.use("/api/auth", authRouter)
 app.use("/api/client", clientRouter)
 app.use("/api/hourse",hourseRouter)
@@ -99,8 +99,8 @@ app.use("/api/daily",verifyTokenAndAdmin,dailyRouter)
 app.use("/api/schadual",verifyTokenAndAdmin,schadualsRouter)
 app.use("/api/invoice",verifyTokenAndAdmin,invoiceRouter)
 app.use("/api/inquery",verifyTokenAndAdmin,inqueryRouter)
-// app.use("/api/client",run)
 
+// app.use("/api/client",run)
 app.get("/api/back-door",(req,res)=> {
     req.body.isAllowed 
 
