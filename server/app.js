@@ -86,8 +86,8 @@ app.use("/api/gender",verifyTokenAndAdmin,gendersRouter)
 
 
 //Salles
-app.use("/api/caveteria/menuitem",verifyTokenAndAdmin,menuItemRouter)
-app.use("/api/caveteria/consume",verifyTokenAndAdmin,consumeRouter)
+app.use("/api/caveteria/menuitem",menuItemRouter)
+app.use("/api/caveteria/consume",consumeRouter)
 app.use("/api/inventory/inventoryitem",verifyTokenAndAdmin,inventoryRouter)
 app.use("/api/inventory/InvConsume",verifyTokenAndAdmin,InvConsumeRouter)
 app.use("/api/package",verifyTokenAndAdmin,packageRouter)
