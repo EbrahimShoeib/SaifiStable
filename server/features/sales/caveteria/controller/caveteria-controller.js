@@ -18,7 +18,7 @@ class caveteriaController {
     })
     .select("-__v")
     .skip(skip) // Skip documents
-    .sort( 
+    .sort(
       { votes: 1, _id: -1 }).limit(pageSize) 
       .then(async (docs) => {
         if (docs) {
@@ -214,5 +214,7 @@ class caveteriaController {
         });
       });
   }
+
+  
 }
 module.exports = caveteriaController;
