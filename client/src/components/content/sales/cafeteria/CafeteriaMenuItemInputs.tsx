@@ -50,7 +50,7 @@ function CafeteriaMenuItemsInputs({
                 <ResourcesInput
                     value={itemName} 
                     setValue={setItemName}
-                    placeholder="Enter Item Name"
+                    placeholder="Entersss Item Name"
                     label='item name'
                     type='text'
                 />
