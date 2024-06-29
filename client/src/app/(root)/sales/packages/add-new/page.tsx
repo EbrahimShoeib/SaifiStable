@@ -19,7 +19,7 @@ import { useMutation } from "react-query"
 function AddNewPackagePage() {
     const [startDate,setStartDate] = useState<string>("")
     const [endDate,setEndDate] = useState<string>("")
-    const [lessons,setLessons] = useState<string>("")
+    const [lessons,setLessons] = useState<NameAndId>(null)
 
     const [status,setStatus] = useState<NameAndId>(null)
     const [category,setCategory] = useState<NameAndId>(null)
@@ -35,7 +35,7 @@ function AddNewPackagePage() {
     const {mutate} = useMutation({
         mutationFn:async () => httpPostService(packagesRoute,JSON.stringify({
             category:category?.name||"no-category",
-            lessons,
+            lessons:lessons?.name,
             startDate,
             endDate,
             status:status?.name,

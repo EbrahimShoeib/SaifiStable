@@ -13,6 +13,7 @@ import { httpGetServices } from '@/services/httpGetService'
 import createInvoice from '@/utils/createInvoice'
 import { toNameAndId } from '@/utils/toNameAndId'
 import React, { useEffect, useState } from 'react'
+import { downloadPDFResume } from '../util/downloadPdf'
 
 
 
@@ -23,60 +24,55 @@ function AddIndividualInvoicePage() {
     const [checkoutDate,setCheckoutDate] = useState<string>("")
     const [debit,setDebit] = useState<string>("")
     const [description,setDescription] = useState<string>("")
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [clients,setClients] = useState<NameAndId[]|[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [client,setClient] = useState<NameAndId>(null)
     const [horse,setHorse] = useState<NameAndId>(null)
-    const [horses,setHorses] = useState<NameAndId[]|[]>([])
     const [discount,setDiscount] = useState<string>("")
     const [courses,setCourses] = useState<any[]|[]>([])
     const [isClientCoursesLoading,setIsClientCoursesLoading] = useState<boolean>(Boolean(client))
+    
 
-
-    let coursesTotal:number = courses?.
+    let total:number = courses?.
     map(curr => +curr?.price)?.
     reduce((acc:any,curr:any)=> acc + curr,0)
-    
 
-    if (+discount && Boolean(coursesTotal)) {
-        coursesTotal = coursesTotal * (+discount / 100)
-    }
-    useEffect(()=>{
-        if ( !clients.length && !horses.length)
-            setIsLoading(false)
-    },[])
-    
-
-    const {isLoading:isClientsLoading} = useGetClients({
-        onSuccess:(res) => {
-            const clients = toNameAndId(res?.data?.client,"username","_id")            
-            setClients(clients)
-        }
-    })
-    
-
-    const {isLoading:isHorsesLoading} = useGetHorses({
-        onSuccess:(res) => {
-            const horses = toNameAndId(res?.data?.hourse,"hourseName","_id")            
-            setHorses(horses)
-        }
-    })
     const handleSubmit = () => {
         if (client && horse) {
-            createInvoice({
-                startDate,
-                endDate,
+            // createInvoice({
+            //     startDate,
+            //     endDate,
+            //     clientName:client?.name,
+            //     horseName:horse?.name,
+            //     checkoutDate,
+            //     debit:+debit,
+            //     description,
+            //     discount:+discount,
+            //     totalPrice:coursesTotal,
+            //     courses
+            // })
+            const taxRate = 16
+
+            const subtotal = total + +debit
+            const taxAmount = subtotal * (taxRate / 100);
+            const amountAfterTax = subtotal + taxAmount;
+            const discountAmount = amountAfterTax * (+discount / 100);
+            const totalAmount = amountAfterTax - discountAmount;
+            const grandTotal = subtotal + taxAmount - discountAmount;
+
+            downloadPDFResume({
                 clientName:client?.name,
-                horseName:horse?.name,
-                checkoutDate,
-                debit:+debit,
-                description,
                 discount:+discount,
-                totalPrice:coursesTotal,
-                courses
+                grandTotal,
+                tax:taxAmount,
+                courses,
+                endDate,
+                startDate,
+                subtotal,
+                totalLessons:total
             })
         }
     } 
+    console.log(courses);
 
     useEffect(()=> {
         const fetchClientCourses = async () => {
@@ -108,7 +104,6 @@ function AddIndividualInvoicePage() {
                         <IndInvoicePageInputs
                             client={client}
                             setClient={setClient}
-                            clients={clients}
                             startDate={startDate}
                             setStartDate={setStartDate}
                             endDate={endDate}
@@ -116,7 +111,6 @@ function AddIndividualInvoicePage() {
                         />
 
                         <IndInvoiceCheckoutTable  
-                            horses={horses}
                             horse={horse}
                             setHorse={setHorse}
                             checkoutDate={checkoutDate}
@@ -129,7 +123,7 @@ function AddIndividualInvoicePage() {
                             setDiscount={setDiscount}
                             courses={courses}
                             isClientCoursesLoading={isClientCoursesLoading}
-                            coursesTotal={coursesTotal}
+                            coursesTotal={total}
                             
                         />
                         <IndInvoicePageFooter

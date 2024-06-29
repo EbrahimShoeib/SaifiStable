@@ -5,7 +5,7 @@ import NavigationTabs from '@/components/shared/all/NavigationTabs';
 import PageContent from '@/components/layout/PageContent';
 import PaginationButtons from '@/components/layout/PaginationButtons';
 import Table from '@/components/layout/Table';
-import { cafeteriaMenuItemRoute } from '@/constants/api';
+import { BASE_URL, cafeteriaMenuItemRoute, packagesRoute } from '@/constants/api';
 import { httpGetServices } from '@/services/httpGetService';
 import { useSearchParams } from 'next/navigation';
 import React, { Suspense, useState } from 'react'
@@ -30,6 +30,7 @@ function CafeteriaMenuItems() {
 
 
     const tableHeadCells = [
+        "image",
         "menu item name",
         "quantity",
         "type",
@@ -38,6 +39,7 @@ function CafeteriaMenuItems() {
     ]
 
     const tableBodyItemCellKeys = [
+        "img",
         "menuItemName",
         "quantity",
         "type",
@@ -50,7 +52,10 @@ function CafeteriaMenuItems() {
         date:item.date&&getReadableDate(item.date)||'no-date',
         price:(<span className='text-right block w-full'>
             {priceFormatter(String(item.price))}
-        </span>)
+        </span>),
+        img:<img 
+        className='h-[60px] aspect-square object-cover' 
+        src={`${BASE_URL}${cafeteriaMenuItemRoute}/${item._id}/upload-image`}/>
     }))
 
     const navigationTabs = [

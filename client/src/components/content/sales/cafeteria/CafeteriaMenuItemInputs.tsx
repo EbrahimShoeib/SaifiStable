@@ -1,6 +1,7 @@
 
 import PageContent from "@/components/layout/PageContent"
 import ResourcesDropList from "@/components/shared/resources/ResourcesDropList"
+import ResourcesImageInput from "@/components/shared/resources/ResourcesImageInput"
 import ResourcesInput from "@/components/shared/resources/ResourcesInput"
 import { cafeteriaItemsTypes } from "@/constants/cafeteriaItemsTypes"
 
@@ -18,7 +19,9 @@ type CafeteriaMenuItemsInputsProps = {
     type:NameAndId,
     setType: (newState:NameAndId) => void,
     isLoading:boolean,
-    submitButtonLabel:string
+    submitButtonLabel:string,
+    formDataFile:FormData|undefined,
+    setFormDataFile: (newState: FormData) => void
 }
 
 function CafeteriaMenuItemsInputs({
@@ -34,7 +37,9 @@ function CafeteriaMenuItemsInputs({
     type,
     setType,
     isLoading,
-    submitButtonLabel
+    submitButtonLabel,
+    formDataFile,
+    setFormDataFile
 
 }:CafeteriaMenuItemsInputsProps) {
 
@@ -76,6 +81,11 @@ function CafeteriaMenuItemsInputs({
                     options={cafeteriaItemsTypes}
                     placeholder='Select Item Type'
                     label='type'
+                />
+                <ResourcesImageInput
+                    formDataFile={formDataFile}
+                    setFormDataFile={setFormDataFile}
+                    label="image"
                 />
             </div>
             <div className='w-full flex justify-center'>

@@ -214,7 +214,5 @@ class caveteriaController {
         });
       });
   }
-
-  
 }
 module.exports = caveteriaController;

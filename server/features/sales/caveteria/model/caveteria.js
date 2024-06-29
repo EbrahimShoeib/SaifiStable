@@ -24,7 +24,15 @@ const caveteriaSchema = mongoose.Schema({
     date:{
         type:Date,
         required:false
-    }
+    },
+    imageBuffer :{
+        type: Buffer || null,
+        required:false
+    },
+    imageType : {
+        type: String || null,
+        required:false
+    },
 
 },{ timestamps: true })
 
