@@ -2,6 +2,8 @@
 
 const express = require ("express")
 const caveteriaController = require ("../controller/caveteria-controller")
+const upload = require("../../../../core/utils/upload");
+
 router = express.Router()
 
 
@@ -14,11 +16,11 @@ router.delete("/:id",caveteriaController.deleteMenuItem)
 router.post(
     "/upload-image/:id",
     upload.single('image'),
-    caveteriaController.uploadImage
+    caveteriaController.uploadCaveteriaImage
 );
-  
+
 router.get(
     "/upload-image/:id",
-    caveteriaController.getImage
+    caveteriaController.getCaveteriaImage
 );
 module.exports = router
