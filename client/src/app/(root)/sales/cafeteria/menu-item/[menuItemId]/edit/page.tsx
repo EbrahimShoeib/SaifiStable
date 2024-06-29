@@ -81,7 +81,7 @@ function MenuItemEditPage() {
     })
     const handleImageUpload = async (id:string) => {
         if (Boolean(formDataFile)) {
-            await httpPostFormDataService(`${cafeteriaMenuItemRoute}/${id}`,formDataFile)   
+            await httpPostFormDataService(`${cafeteriaMenuItemRoute}/upload-image/${id}`,formDataFile)   
         }
     }
     return (

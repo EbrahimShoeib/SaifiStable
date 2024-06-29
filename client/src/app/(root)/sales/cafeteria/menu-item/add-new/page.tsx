@@ -43,7 +43,7 @@ function AddNewMenuItemPage() {
                     
                     await handleImageUpload(res?.data?._id)
                 }
-                //router.push("/sales/cafeteria/menu-item")
+                router.push("/sales/cafeteria/menu-item")
             }else {
                 failedPopUp(res.message)
             }
@@ -52,7 +52,7 @@ function AddNewMenuItemPage() {
     })
     const handleImageUpload = async (id:string) => {
         if (Boolean(formDataFile)) {
-            await httpPostFormDataService(`${cafeteriaMenuItemRoute}/${id}`,formDataFile)   
+            await httpPostFormDataService(`${cafeteriaMenuItemRoute}/upload-image/${id}`,formDataFile)   
         }
     }
     

@@ -55,7 +55,7 @@ function CafeteriaMenuItems() {
         </span>),
         img:<img 
         className='h-[60px] aspect-square object-cover' 
-        src={`${BASE_URL}${cafeteriaMenuItemRoute}/${item._id}/upload-image`}/>
+        src={`${BASE_URL}${cafeteriaMenuItemRoute}/upload-image/${item._id}`}/>
     }))
 
     const navigationTabs = [
