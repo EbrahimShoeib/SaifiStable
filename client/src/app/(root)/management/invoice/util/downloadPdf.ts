@@ -1,5 +1,4 @@
 import jsPDF from "jspdf";
-//import logo from "/svgs/logo.svg"
 import autoTable from 'jspdf-autotable'
 type param = {
     subtotal:number, 
@@ -36,7 +35,7 @@ export const downloadPDFResume = ({
     const data =courses.map((course, index) => [index + 1, course.courseDate, course.note , course.hourseId.hourseName, course.price]);
   
 
-    //doc.addImage(logo, 'PNG', 10, 10, 50, 50);
+    doc.addImage('/images/logo-png.png', 'PNG', 10, 10, 50, 50);
     doc.text("Client Name:", 125, 30);
     doc.text("Start Date:", 125, 40);
     doc.text("End Date:", 125, 50);

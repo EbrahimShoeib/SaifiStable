@@ -13,6 +13,8 @@ import { useQuery } from 'react-query';
 import { getReadableDate } from '@/utils/getReadableDate';
 import PageHeader from '@/components/layout/PageHeader';
 import { priceFormatter } from '@/utils/priceFormatter';
+import { FallBackImage } from '@/components/shared/all/FallBackImage';
+import { BiSolidImageAlt } from 'react-icons/bi';
 
 function CafeteriaMenuItems() {
     
@@ -53,9 +55,11 @@ function CafeteriaMenuItems() {
         price:(<span className='text-right block w-full'>
             {priceFormatter(String(item.price))}
         </span>),
-        img:<img 
-        className='h-[60px] aspect-square object-cover' 
-        src={`${BASE_URL}${cafeteriaMenuItemRoute}/upload-image/${item._id}`}/>
+        img:<FallBackImage 
+            className='h-[50px] aspect-square object-cover' 
+            url={`${BASE_URL}${cafeteriaMenuItemRoute}/upload-image/${item._id}`}
+            fallback={<BiSolidImageAlt className='h-[50px] bg-light-grey w-[50px] bg-opacity-40 text-4xl  text-dark-grey opacity-30' />}
+        />
     }))
 
     const navigationTabs = [

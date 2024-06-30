@@ -8,31 +8,23 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FaUserCircle } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { TiArrowSortedDown } from 'react-icons/ti'
+import { FallBackImage } from './FallBackImage'
 
 type AvatarImageProps = {
-    avatar:any
+    avatar:string
 }
 
 const AvatarImage = ({avatar}:AvatarImageProps) => {
 
-    const [avatarUrl,setAvatarUrl] = useState<string>('')
-
-
-    useEffect(()=>{
-        checkImgUrl(avatar,()=>setAvatarUrl(avatar))
-    },[avatar])
-
     return (
         <div className='w-[30px] flex justify-center items-center bg-dark-grey aspect-square overflow-hidden rounded-full '>
-            {
-                Boolean(avatarUrl) ?
-                (<img 
+            
+                <FallBackImage 
                     className='w-full h-full object-cover' 
-                    src={avatarUrl} 
-                    alt="img" 
-                />) :
-                (<FaUserCircle className='w-full h-full uppercase text-zinc-400'/>)
-            }
+                    url={avatar} 
+                    fallback={<FaUserCircle className='w-full h-full uppercase text-zinc-400'/>} 
+                /> 
+            
         </div>
     )
 }

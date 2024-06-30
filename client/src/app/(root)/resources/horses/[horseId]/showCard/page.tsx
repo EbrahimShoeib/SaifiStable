@@ -41,7 +41,7 @@ function ShowCard() {
                     addNewButtonLabel='add new horse'
                 />
                 <PageContent>
-                    <div className="w-full h-full flex p-10 items-cente px-[calc(50%-115px)]">
+                    <div className="w-full h-full p-10 grid grid-cols-[repeat(auto-fill,230px)]">
                         {
                             isDataHere && <ResourcesCard
                             route={horsesRoute}
