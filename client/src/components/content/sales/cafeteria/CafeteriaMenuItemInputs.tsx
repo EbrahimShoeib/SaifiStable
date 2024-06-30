@@ -67,7 +67,7 @@ function CafeteriaMenuItemsInputs({
                     placeholder="price"
                     label='price'
                     type='number'
-                />      
+                />
                 <ResourcesInput
                     value={date} 
                     setValue={setDate}
@@ -88,7 +88,6 @@ function CafeteriaMenuItemsInputs({
                     label="image"
                 />
             </div>
-              
             <div className='w-full flex justify-center'>
                 <button onClick={handleSubmit} disabled={isLoading} className='w-[350px] text-primary duration-300 hover:bg-primary hover:text-smokey-white font-semibold text-2xl capitalize rounded-2xl h-[60px] border border-primary'>
                     {submitButtonLabel}
@@ -99,4 +98,4 @@ function CafeteriaMenuItemsInputs({
 }
 
 export default CafeteriaMenuItemsInputs
-//  
+//
