@@ -157,7 +157,7 @@ const {
   if(error){
       res.status(400).json({
           status_code: ApiErrorCode.validation,
-          message: "Validation Error",
+          message: error.message,
           data: null,
           error:{
               error:error.message

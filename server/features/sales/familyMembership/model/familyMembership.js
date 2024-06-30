@@ -50,7 +50,7 @@ function createNewfamilyMembership(obj) {
     startDate: joi.string().required(),
     endDate: joi.string().required(),
     status: joi.string().required().valid("active", "inactive"),
-    clientId:joi.required()
+    clientId:joi.string().required()
   });
   return schema.validate(obj);
 }
@@ -63,7 +63,7 @@ function updatefamilyMembership(obj) {
     startDate: joi.string().required(),
     endDate: joi.string().required(),
     status: joi.string().required().valid("active", "inactive"),
-    clientId:joi.required()
+    clientId:joi.string().required()
 
   });
   return schema.validate(obj);
