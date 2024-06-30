@@ -24,7 +24,7 @@ function HorsesPageContent({isDataHere,response,refetch}:HorsesPageProps) {
                 {
                     isDataHere ? ( 
                         horses.length ? (
-                            <div className='grid w-full h-full '>
+                            <div className='grid w-full h-full p-10 gap-5 grid-cols-[repeat(auto-fill,230px)]'>
                                 {
                                     horses.map((horse:any,idx:number) => (
                                         <ResourcesCard
