@@ -24,7 +24,10 @@ type MembershipFamilyInputsProps = {
     setFamilyName:(newState:string)=> void,
     members:NameAndId,
     setMembers:(newState:NameAndId)=> void,
-    submitButtonLabel:string
+    submitButtonLabel:string,
+    relationMember:NameAndId,
+    setRelationMember:(newState:NameAndId)=> void,
+    isFamilyEnumSelected:boolean
 }
 
 function MembershipFamilyInputs({
@@ -42,12 +45,14 @@ function MembershipFamilyInputs({
     setFamilyName,
     members,
     setMembers,
-    submitButtonLabel
+    submitButtonLabel,
+    relationMember,
+    setRelationMember,
+    isFamilyEnumSelected
 }:MembershipFamilyInputsProps) {
 
 
     const [clientsRes,setClientsRes] = useState<any>()
-
     return (
         <PageContent>
             <div className='max-w-[600px] flex flex-col gap-10 my-16 mx-8'>
@@ -96,7 +101,24 @@ function MembershipFamilyInputs({
                     label='membership type'
                     options={membershipFamilyTypes}
                 />  
-                
+                <div 
+                    style={isFamilyEnumSelected? undefined : {
+                        pointerEvents: 'none',
+                        opacity: 0.5,
+                        cursor: 'not-allowed'
+                    }} 
+                    className="w-full"
+                >
+                    <SearchBox
+                        options={toNameAndId(clientsRes?.data?.client,'username','_id')}
+                        searchUrl={clientsRoute}
+                        setListValue={setRelationMember}
+                        setResponse={setClientsRes}
+                        label='relation member'
+                        listValue={relationMember}
+                        placeholder='search client name'
+                    />
+                </div>
    
             </div>
             <div className='w-full flex justify-center'>

@@ -37,7 +37,7 @@ function AddIndividualInvoicePage() {
     reduce((acc:any,curr:any)=> acc + curr,0)
 
     const handleSubmit = () => {
-        if (client && horse) {
+        if (client && horse && total>0) {
             // createInvoice({
             //     startDate,
             //     endDate,

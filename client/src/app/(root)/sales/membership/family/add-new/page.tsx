@@ -15,7 +15,7 @@ function AddNewFamilyMembershipPage() {
     const [endDate,setEndDate] = useState<string>("")
     const [familyName,setFamilyName] = useState<string>("")
     const [members,setMembers] = useState<NameAndId>(null)
-
+    const [relationMember,setRelationMember] = useState<NameAndId>(null)
     const [status,setStatus] = useState<NameAndId>(null)
     const [membershipType,setMembershipType] = useState<NameAndId>(null)
 
@@ -23,6 +23,7 @@ function AddNewFamilyMembershipPage() {
     const failedPopUp = useFailedPopUp()
     const successPopUp = useSuccessPopUp()
     const router = useRouter()
+    const isFamilyEnumSelected =  membershipType?.name === 'family'
 
     const {mutate} = useMutation({
         mutationFn:async () => httpPostService(familyMembershipRoute,JSON.stringify({
@@ -31,7 +32,9 @@ function AddNewFamilyMembershipPage() {
             status:status?.name,
             startDate,
             endDate,
-            members:members?.id
+            members:members?.id,
+            clientId:isFamilyEnumSelected? relationMember?.id : null
+
 
            
         })),
@@ -74,6 +77,9 @@ function AddNewFamilyMembershipPage() {
                 setFamilyName={setFamilyName}
                 members={members}
                 setMembers={setMembers}
+                isFamilyEnumSelected={isFamilyEnumSelected}
+                relationMember={relationMember}
+                setRelationMember={setRelationMember}
                 submitButtonLabel='add family membership'
             />
         </>

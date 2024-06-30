@@ -58,7 +58,8 @@ function CafeteriaMenuItems() {
         img:<FallBackImage 
             className='h-[50px] aspect-square object-cover' 
             url={`${BASE_URL}${cafeteriaMenuItemRoute}/upload-image/${item._id}`}
-            fallback={<BiSolidImageAlt className='h-[50px] bg-light-grey w-[50px] bg-opacity-40 text-4xl  text-dark-grey opacity-30' />}
+            fallback={<BiSolidImageAlt className='h-[50px
+                0] bg-light-grey w-[50px] bg-opacity-40 text-4xl  text-dark-grey opacity-30' />}
         />
     }))
 

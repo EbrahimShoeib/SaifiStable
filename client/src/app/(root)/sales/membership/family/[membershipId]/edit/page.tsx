@@ -24,6 +24,7 @@ function EditFamilyMembershipPage() {
 
     const [status,setStatus] = useState<NameAndId>(null)
     const [membershipType,setMembershipType] = useState<NameAndId>(null)
+    const [relationMember,setRelationMember] = useState<NameAndId>(null)
 
     const [isLoading,setIsLoading] = useState<boolean>(true)
     const failedPopUp = useFailedPopUp()
@@ -31,6 +32,7 @@ function EditFamilyMembershipPage() {
     const router = useRouter()
     const {membershipId} = useParams()
     const familyMembershipIdRoute = `${familyMembershipRoute}/${membershipId}`
+    const isFamilyEnumSelected =  membershipType?.name === 'family'
 
     const {mutate} = useMutation({
         mutationFn:async () => httpPatchService(familyMembershipIdRoute,JSON.stringify({
@@ -39,8 +41,8 @@ function EditFamilyMembershipPage() {
             status:status?.name,
             startDate,
             endDate,
-            members:members?.id
-           
+            members:members?.id,
+            clientId:isFamilyEnumSelected? relationMember?.id : null
         })),
         onSuccess:(res) => {
             const status = statusCodeIndicator(res.status_code) === "success" 
@@ -67,11 +69,17 @@ function EditFamilyMembershipPage() {
                     id:data.members._id,
                     name:data.members.username
                 } : null
+                const relationMember = data.clientId ? {
+                    id:data.clientId._id,
+                    name:data.clientId.username
+                } : null
+                setRelationMember(relationMember)
                 setMembers(members)
                 setStatus(getMembershipStatus(data.status))
                 setMembershipType(getMembershipFamilyType(data.membershipType))
                 data.startDate&&setStartDate(getIsoDate(data.startDate))
                 data.endDate&&setEndDate(getIsoDate(data.endDate))
+
                 setIsLoading(false)
             }
             
@@ -94,6 +102,7 @@ function EditFamilyMembershipPage() {
                 setStartDate={setStartDate}
                 endDate={endDate}
                 setEndDate={setEndDate}
+                isFamilyEnumSelected={isFamilyEnumSelected}
                 status={status}
                 setStatus={setStatus}
                 membershipType={membershipType}
@@ -103,6 +112,8 @@ function EditFamilyMembershipPage() {
                 familyName={familyName}
                 setFamilyName={setFamilyName}
                 members={members}
+                relationMember={relationMember}
+                setRelationMember={setRelationMember}
                 setMembers={setMembers}
                 submitButtonLabel='save individual membership'
             />
