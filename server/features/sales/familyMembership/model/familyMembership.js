@@ -18,7 +18,7 @@ const familyMembershipSchema = mongoose.Schema({
     enum:["family","membership individual (1 month)","membership individual (2 months)","membership individual (3 months)","membership individual (4 months)","membership individual (5 months)","membership individual (6 months)","membership individual (7 months)","membership individual (8 months)","membership individual (9 months)","membership individual (10 months)","membership individual (11 months)","membership individual (12 months)"]
   },
   clientId:{
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Types.ObjectId||null,
     ref: "Client",
     required: true,
   },

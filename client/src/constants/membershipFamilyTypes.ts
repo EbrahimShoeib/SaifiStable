@@ -1,50 +1,54 @@
 export const membershipFamilyTypes = [
     {
-        name:"membership individual (1 month)",
+        name:'family',
         id:'1'
+    },
+    {
+        name:"membership individual (1 month)",
+        id:'2'
     },
     {
         name:"membership individual (2 months)",
-        id:'1'
+        id:'3'
     },
     {
         name:"membership individual (3 months)",
-        id:'1'
+        id:'4'
     },
     {
         name:"membership individual (4 months)",
-        id:'1'
+        id:'5'
     },
     {
         name:"membership individual (5 months)",
-        id:'1'
+        id:'6'
     },
     {
         name:"membership individual (6 months)",
-        id:'1'
+        id:'7'
     },
     {
         name:"membership individual (7 months)",
-        id:'1'
+        id:'8'
     },
     {
         name:"membership individual (8 months)",
-        id:'1'
+        id:'9'
     },
     {
         name:"membership individual (9 months)",
-        id:'1'
+        id:'10'
     },
     {
         name:"membership individual (10 months)",
-        id:'1'
+        id:'11'
     },
     {
         name:"membership individual (11 months)",
-        id:'1'
+        id:'12'
     },
     {
         name:"membership individual (12 months)",
-        id:'1'
+        id:'13'
     },
 ]

@@ -16,6 +16,7 @@ import { IoMdCheckmarkCircleOutline } from 'react-icons/io'
 import { MdErrorOutline } from 'react-icons/md'
 import { RiPencilFill } from 'react-icons/ri'
 import { useMutation } from 'react-query'
+import { FallBackImage } from '../all/FallBackImage'
 
 export type ResourcesCardProps = {
     imgUrl: string,
@@ -35,12 +36,7 @@ function ResourcesCard({imgUrl,editPageURL,deleteRedirectURL,title,titles,_id,ro
     const popUp = usePopUp()
     const router = useRouter()
 
-    const [img,setImg] = useState('')
-
-    useEffect(()=>{
-        checkImgUrl(imgUrl,()=>setImg(imgUrl))
-
-    },[imgUrl])
+    
 
     const {mutate} = useMutation({
         mutationFn: async () => httpDeleteService(`${route}/${_id}`),
@@ -84,15 +80,16 @@ function ResourcesCard({imgUrl,editPageURL,deleteRedirectURL,title,titles,_id,ro
     return (
         <div className='h-[340px] duration-300 hover:shadow-lg hover:!border-opacity-10 border-opacity-40 border border-dark-grey text-center items-center justify-between w-full flex flex-col  rounded-3xl'>
             <div className='h-[150px] w-full px-4 pt-4'>
-                <div className={`w-full h-full  rounded-2xl overflow-hidden ${!img && "bg-light-grey bg-opacity-40"}`}>
-                    {
-                        !Boolean(img) ? (<BiSolidImageAlt className='w-full text-4xl h-full text-dark-grey opacity-30' />) :(
-                            <img 
-                                src={img} 
-                                className='w-full bg-light-grey h-[180px] object-cover' 
-                                alt="image not found"
-                            />)
-                    }
+                <div className={`w-full h-full  rounded-2xl overflow-hidden`}>
+                    
+                        
+                    
+                    <FallBackImage
+                        fallback={<BiSolidImageAlt className='w-full bg-light-grey bg-opacity-40 text-4xl h-full text-dark-grey opacity-30' />}
+                        url={imgUrl} 
+                        className='w-full bg-light-grey h-[180px] object-cover'
+                    />
+                    
                 </div>
             </div>
 
