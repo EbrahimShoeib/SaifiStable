@@ -15,7 +15,12 @@ const familyMembershipSchema = mongoose.Schema({
   membershipType: {
     type: String,
     require: true,
-    enum:["membership individual (1 month)","membership individual (2 months)","membership individual (3 months)","membership individual (4 months)","membership individual (5 months)","membership individual (6 months)","membership individual (7 months)","membership individual (8 months)","membership individual (9 months)","membership individual (10 months)","membership individual (11 months)","membership individual (12 months)"]
+    enum:["family","membership individual (1 month)","membership individual (2 months)","membership individual (3 months)","membership individual (4 months)","membership individual (5 months)","membership individual (6 months)","membership individual (7 months)","membership individual (8 months)","membership individual (9 months)","membership individual (10 months)","membership individual (11 months)","membership individual (12 months)"]
+  },
+  clientId:{
+    type: mongoose.Types.ObjectId,
+    ref: "Client",
+    required: true,
   },
   endDate: {
     type: String,
@@ -41,22 +46,25 @@ function createNewfamilyMembership(obj) {
   const schema = joi.object({
     famillyName: joi.string().required(),
     members: joi.string().required(),
-    membershipType: joi.string().required().valid("membership individual (1 month)","membership individual (2 months)","membership individual (3 months)","membership individual (4 months)","membership individual (5 months)","membership individual (6 months)","membership individual (7 months)","membership individual (8 months)","membership individual (9 months)","membership individual (10 months)","membership individual (11 months)","membership individual (12 months)"),
+    membershipType: joi.string().required().valid("family","membership individual (1 month)","membership individual (2 months)","membership individual (3 months)","membership individual (4 months)","membership individual (5 months)","membership individual (6 months)","membership individual (7 months)","membership individual (8 months)","membership individual (9 months)","membership individual (10 months)","membership individual (11 months)","membership individual (12 months)"),
     startDate: joi.string().required(),
     endDate: joi.string().required(),
     status: joi.string().required().valid("active", "inactive"),
+    clientId:joi.string().required()
   });
   return schema.validate(obj);
 }
- 
+
 function updatefamilyMembership(obj) {
   const schema = joi.object({
     famillyName: joi.string().required(),
     members: joi.string().required(),
-    membershipType: joi.string().required().valid("membership individual (1 month)","membership individual (2 months)","membership individual (3 months)","membership individual (4 months)","membership individual (5 months)","membership individual (6 months)","membership individual (7 months)","membership individual (8 months)","membership individual (9 months)","membership individual (10 months)","membership individual (11 months)","membership individual (12 months)"),
+    membershipType: joi.string().required().valid("family","membership individual (1 month)","membership individual (2 months)","membership individual (3 months)","membership individual (4 months)","membership individual (5 months)","membership individual (6 months)","membership individual (7 months)","membership individual (8 months)","membership individual (9 months)","membership individual (10 months)","membership individual (11 months)","membership individual (12 months)"),
     startDate: joi.string().required(),
     endDate: joi.string().required(),
     status: joi.string().required().valid("active", "inactive"),
+    clientId:joi.string().required()
+
   });
   return schema.validate(obj);
 }

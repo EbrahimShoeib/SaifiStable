@@ -23,6 +23,7 @@ const {
       .sort( 
         { votes: 1, _id: -1 }).limit(pageSize) 
         .populate("members")
+        .populate("clientId")
         .then(async (docs) => {
           if (docs) {
             const totalRecords = await familyMembership.countDocuments();
@@ -61,6 +62,7 @@ const {
     static async getfamilyMembershipById(req, res) {
       await familyMembership.findById(req.params.id)
       .populate("members")
+      .populate("clientId")
 
         // .populate("clientId")
         .then((docs) => {
@@ -116,6 +118,8 @@ const {
                 endDate: req.body.endDate,
                 startDate: req.body.startDate,
                 status: req.body.status,
+                clientId: req.body.clientId,
+
               })
   
                 .save()
@@ -173,6 +177,8 @@ const {
                 endDate: req.body.endDate,
                 startDate: req.body.startDate,
                 status: req.body.status,
+                clientId: req.body.clientId,
+
               },
             },
             { new: true }
