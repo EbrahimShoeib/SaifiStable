@@ -30,7 +30,7 @@ function Coffee() {
                 const {data:{user}} = response
                 localStorage.setItem("coffee_token",user.token)
                 toastify("logged in successfully ✅")
-                router.push("/coffee/controls")
+                router.push("/sales/coffee")
                 return
             }
             toastify("email or password might be wrong ❌")
