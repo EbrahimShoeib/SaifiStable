@@ -59,8 +59,8 @@ function CoffeeControls() {
             <PageHeader
                 title={(
                     <span>
-                        stables cafeteria / 
-                        <span className="text-primary"> add consumed item</span> 
+                        stables coffee / 
+                        <span className="text-primary"> add coffee</span> 
                     </span>
                 )}
                 showBackButton={true}
@@ -82,7 +82,7 @@ function CoffeeControls() {
                 amount={amount}
                 setAmount={setAmount}
                 setPayment={setPayment}     
-                submitButtonLabel="add consumed item"
+                submitButtonLabel="submit"
             />
         </>
     )
