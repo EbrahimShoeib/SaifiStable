@@ -1,19 +1,10 @@
-'use client'
 
 import SideNav from '@/components/layout/sideNav/SideNav'
-import { AuthProviderData, useAuthProvider } from '@/context/AuthContext'
-import { redirect } from 'next/navigation'
-import { useEffect } from 'react'
+
 
 function DashboardLayout({children}:Children) {
  
-    const auth :AuthProviderData = useAuthProvider()
-    
-    useEffect(()=>{
-        if (!auth?.isAuth) {
-            return redirect("/login")
-        }
-    },[auth?.isAuth])
+ 
 
     return (
         <main className='w-full relative h-screen overflow-hidden flex items-center justify-center '>

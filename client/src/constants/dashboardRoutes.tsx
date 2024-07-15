@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { BiSolidPackage } from "react-icons/bi"
 import { BsCalendarWeekFill, BsFillCupHotFill } from "react-icons/bs"
-import { FaBriefcaseMedical, FaFileInvoiceDollar } from "react-icons/fa"
+import { FaBriefcaseMedical, FaCoffee, FaFileInvoiceDollar } from "react-icons/fa"
 import { GiPoliceOfficerHead } from "react-icons/gi"
 import { HiMiniUserGroup } from "react-icons/hi2"
 import { IoMdSettings } from "react-icons/io"
@@ -97,6 +97,11 @@ export const SalesRoutes : DashboardRoute[] = [
         href:"/sales/membership/individual",
         iconComponent:<MdGroupAdd />,
         name:"membership"
+    },
+    {
+        href:"/sales/coffee",
+        iconComponent:<FaCoffee />,
+        name:"coffee"
     },
     {
         href:"/sales/packages",

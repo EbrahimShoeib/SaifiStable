@@ -35,7 +35,8 @@ function CafeteriaConsumedItems() {
         "quantity",
         "price",
         "payment",
-        "date"
+        "date",
+        "amount"
     ]
 
     const tableBodyItemCellKeys = [
@@ -44,7 +45,8 @@ function CafeteriaConsumedItems() {
         "consumedQuantity",
         "consumedPrice",
         "consumedPayment",
-        "date"
+        "date",
+        "amount"
     ]
     const tableBodyItems = response?.caveteriaItems?.data.map((item:any) => ({
         ...item,
@@ -52,7 +54,8 @@ function CafeteriaConsumedItems() {
         date:item.date&&getReadableDate(item.date)||'no-date',
         consumedPrice:(<span className='w-full block text-right'>
             {priceFormatter(String(item.consumedPrice))}
-        </span>)
+        </span>),
+        
     }))
     
     const navigationTabs = [

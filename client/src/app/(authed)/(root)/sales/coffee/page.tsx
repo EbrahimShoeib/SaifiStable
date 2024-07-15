@@ -1,75 +1,51 @@
 "use client"
 
-import CafeteriaConsumedInputs from "@/components/content/sales/cafeteria/CafeteriaConsumedInputs"
 import PageHeader from "@/components/layout/PageHeader"
 import { cafeteriaConsumedItemRoute } from "@/constants/api"
 import { useFailedPopUp } from "@/hooks/useFailedPopUp"
 import { useSuccessPopUp } from "@/hooks/useSuccessPopUp"
-import { httpGetServices } from "@/services/httpGetService"
-import { httpPatchService } from "@/services/httpPatchService"
-import { getCafeteriaPayment } from "@/utils/getCafeteriaPayment"
-import { getIsoDate } from "@/utils/getIsoDate"
+import { httpPostService } from "@/services/httpPostService"
 import { statusCodeIndicator } from "@/utils/statusCodeIndicator"
-import { useParams } from "next/navigation"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useMutation } from "react-query"
+import Inputs from "./Inputs"
 
-function EditConsumedItemPage() {
+function CoffeeControls() {
 
-    const [itemName,setItemName] = useState<string>("")
+    const router = useRouter()
+    useEffect(()=>{
+        if(!localStorage.getItem("coffee_token"))
+            router.push("/coffee")
+    },[])
+    const [itemName,setItemName] = useState<NameAndId>(null)
     const [quantity,setQuantity] = useState<string>("")
     const [price,setPrice] = useState<string>("")
     const [payment,setPayment] = useState<NameAndId>(null)
     const [client,setClient] = useState<NameAndId>(null)
+    const [amount,setAmount] = useState<string>("")
     const [date,setDate] = useState<string>("")
-    const [isLoading,setIsLoading] = useState<boolean>(true)
+    const [isLoading,setIsLoading] = useState<boolean>(false)
 
     const failedPopUp = useFailedPopUp()
     const successPopUp = useSuccessPopUp()
-    const router = useRouter()
-    const {consumedItemId} = useParams()
-    const consumedItemIdRoute = `${cafeteriaConsumedItemRoute}/${consumedItemId}`
-
-    useEffect(() => {
-        const fetchConsumedItem = async () => {
-            const res = await httpGetServices(consumedItemIdRoute)
-            if (Boolean(res.data)) {
-                const itemData = res.data
-                setItemName(itemData.consumedItemName)
-                setQuantity(itemData.consumedQuantity)
-                setPayment(getCafeteriaPayment(itemData.consumedPayment))
-                
-                itemData.date&&setDate(getIsoDate(itemData.date))
-                setPrice(itemData.consumedPrice)
-                const client = Boolean(itemData.clientId) ? ({
-                    name:itemData.clientId.username,
-                    id:itemData.clientId._id
-                }) : null      
-                setClient(client)
-                setIsLoading(false)
-            }
-            
-        }
-        fetchConsumedItem()
-    },[])
-
 
     const {mutate} = useMutation({
-        mutationFn:async () => httpPatchService(consumedItemIdRoute,JSON.stringify({
-            consumedItemName:itemName,
+        mutationFn:async () => httpPostService(cafeteriaConsumedItemRoute,JSON.stringify({
+            consumedItemName:itemName?.name,
             consumedQuantity:quantity,
-            type:"no-type",
             consumedPrice:price,
             date,
+            type:"no-type",
             clientId:client?.id,
-            consumedPayment:payment?.name
+            consumedPayment:payment?.name,
+            amount
         })),
         onSuccess:(res) => {
             const status = statusCodeIndicator(res.status_code) === "success" 
             
             if (status) {
-                successPopUp("item updated successfully")
+                successPopUp("item added successfully")
                 router.push("/sales/cafeteria/consumed-item")
             }else {
                 failedPopUp(res.message)
@@ -77,18 +53,19 @@ function EditConsumedItemPage() {
         },
         onError: () => failedPopUp()
     })
+
     return (
         <>
             <PageHeader
                 title={(
                     <span>
                         stables cafeteria / 
-                        <span className="text-primary">edit consumed item</span> 
+                        <span className="text-primary"> add consumed item</span> 
                     </span>
                 )}
                 showBackButton={true}
             />
-            <CafeteriaConsumedInputs
+            <Inputs
                 handleSubmit={mutate}
                 itemName={itemName}
                 setItemName={setItemName}
@@ -102,11 +79,13 @@ function EditConsumedItemPage() {
                 client={client}
                 setClient={setClient}
                 payment={payment}
+                amount={amount}
+                setAmount={setAmount}
                 setPayment={setPayment}     
-                submitButtonLabel="save consumed item"
+                submitButtonLabel="add consumed item"
             />
         </>
     )
 }
 
-export default EditConsumedItemPage
+export default CoffeeControls

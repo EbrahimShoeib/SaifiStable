@@ -21,6 +21,7 @@ function AddNewConsumedItemPage() {
     const [client,setClient] = useState<NameAndId>(null)
     const [date,setDate] = useState<string>("")
     const [isLoading,setIsLoading] = useState<boolean>(false)
+    const [amount,setAmount] = useState<string>('')
 
     const failedPopUp = useFailedPopUp()
     const successPopUp = useSuccessPopUp()
@@ -34,7 +35,8 @@ function AddNewConsumedItemPage() {
             date,
             type:"not-type",
             clientId:client?.id,
-            consumedPayment:payment?.name
+            consumedPayment:payment?.name,
+            amount
         })),
         onSuccess:(res) => {
             const status = statusCodeIndicator(res.status_code) === "success" 
@@ -76,6 +78,8 @@ function AddNewConsumedItemPage() {
                 payment={payment}
                 setPayment={setPayment}     
                 submitButtonLabel="add consumed item"
+                amount={amount}
+                setAmount={setAmount}
             />
         </>
     )
