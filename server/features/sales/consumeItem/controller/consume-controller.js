@@ -1,7 +1,6 @@
 const { Consume, creatconsumValidation } = require("../model/consumeModel");
 const ApiErrorCode = require("../../../../core/errors/apiError");
-const {Client} = require('../../../client/models/client')
-
+const { Client } = require("../../../client/models/client");
 
 class consumeController {
   static async getAllConsume(req, res) {
@@ -18,11 +17,13 @@ class consumeController {
         { type: { $regex: regexQuery } },
         { consumedItemName: { $regex: regexQuery } },
       ],
-    }).populate("clientId")
-    .select("-__v")
-    .skip(skip) // Skip documents
-    .sort( 
-      { votes: 1, _id: -1 }).limit(pageSize) 
+    })
+      .populate("clientId")
+      
+      .select("-__v")
+      .skip(skip) // Skip documents
+      .sort({ votes: 1, _id: -1 })
+      .limit(pageSize)
       .then(async (docs) => {
         if (docs) {
           const totalRecords = await Consume.countDocuments();
@@ -59,36 +60,32 @@ class consumeController {
       });
   }
   static async getConsumeById(req, res) {
-
     await Consume.findById(req.params.id)
-    .populate("clientId")
-    .then((docs)=>{
-      if(docs){
-       
-        res.status(200).json({
-          status_code: 0,
-          message: "Success to get consumed By Id",
-          data: docs,
+      .populate("clientId")
+      .then((docs) => {
+        if (docs) {
+          res.status(200).json({
+            status_code: 0,
+            message: "Success to get consumed By Id",
+            data: docs,
+          });
+        } else {
+          res.status(404).json({
+            status_code: ApiErrorCode.notFound,
+            message: "Can`t Found consumed Item Id",
+            data: null,
+          });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          status_code: ApiErrorCode.internalError,
+          message: "internal server error",
+          error: {
+            error: error.message,
+          },
         });
-
-      }else{
-        res.status(404).json({
-          status_code: ApiErrorCode.notFound,
-          message: "Can`t Found consumed Item Id",
-          data: null,
-        });
-      }
-    })
-    .catch((error)=>{
-      res.status(500).json({
-        status_code: ApiErrorCode.internalError,
-        message: "internal server error",
-        error: {
-          error:error.message
-        },
       });
-
-    })
   }
   static async createNewConsume(req, res) {
     const { error } = creatconsumValidation(req.body);
@@ -102,44 +99,39 @@ class consumeController {
         },
       });
     } else {
-        Consume.find()
+      Consume.find()
         .then((docs) => {
-          
-            new Consume({
-                consumedItemName: req.body.consumedItemName,
-                clientId: req.body.clientId,
-                consumedQuantity: req.body.consumedQuantity,
-                consumedPrice: req.body.consumedPrice,
-                consumedPayment: req.body.consumedPayment,
-                type:req.body.type,
-
-
-                date: req.body.date
-            })
-              .save()
-              .then(async (docs) => {
-                
-                await Client.findByIdAndUpdate(
-                  req.body.clientId,
-                  { $inc: { activityCount: 1 } },
-                )
-    
-                res.status(200).json({
-                  status_code: 1,
-                  message: "consumed item created successfuly",
-                  data: docs,
-                });
-              })
-              .catch((error) => {
-                res.status(500).json({
-                  status_code: ApiErrorCode.internalError,
-                  message: "consumed item Already Found",
-                  error: {
-                    error: error.message,
-                  },
-                });
+          new Consume({
+            consumedItemName: req.body.consumedItemName,
+            clientId: req.body.clientId,
+            consumedQuantity: req.body.consumedQuantity,
+            amount: req.body.amount,
+            consumedPrice: req.body.consumedPrice,
+            consumedPayment: req.body.consumedPayment,
+            type: req.body.type,
+            date: req.body.date,
+          })
+            .save()
+            .then(async (docs) => {
+              await Client.findByIdAndUpdate(req.body.clientId, {
+                $inc: { activityCount: 1 },
               });
-          
+
+              res.status(200).json({
+                status_code: 1,
+                message: "consumed item created successfuly",
+                data: docs,
+              });
+            })
+            .catch((error) => {
+              res.status(500).json({
+                status_code: ApiErrorCode.internalError,
+                message: "consumed item Already Found",
+                error: {
+                  error: error.message,
+                },
+              });
+            });
         })
         .catch((error) => {
           res.status(500).json({
@@ -165,8 +157,8 @@ class consumeController {
                 consumedQuantity: req.body.consumedQuantity,
                 consumedPrice: req.body.consumedPrice,
                 consumedPayment: req.body.consumedPayment,
-
-   date: req.body.date
+                amount: req.body.amount,
+                date: req.body.date,
               },
             },
             { new: true }
@@ -174,7 +166,7 @@ class consumeController {
             .then((docs) => {
               if (docs) {
                 res.status(200).json({
-                  status_code:0,
+                  status_code: 0,
                   message: "success",
                   data: docs,
                 });
@@ -191,7 +183,7 @@ class consumeController {
                 status_code: ApiErrorCode.validation,
                 message: "id is not found",
                 error: {
-                  error:error.message
+                  error: error.message,
                 },
               });
             });
@@ -202,38 +194,37 @@ class consumeController {
           status_code: ApiErrorCode.internalError,
           message: "internal server Down",
           error: {
-            error:error.message
+            error: error.message,
           },
         });
       });
   }
   static async deleteConsume(req, res) {
     await Consume.findByIdAndDelete(req.params.id)
-    .then((docs)=>{
-      if(docs){
-        res.status(200).json({
-          status_code: 0,
-          message: "Menu item is deleted",
-          data: [],
-        });
-      }else{
-        res.status(404).json({
-          status_code: ApiErrorCode.notFound,
-          message: "Can`t Found Menu Item Id",
-          data: null,
-        });
-      }
-
-    })
-    .catch((error)=>{
-      res.status(500).json({
-        status_code: ApiErrorCode.internalError,
-        message: "Internal server Error",
-        error:{
-          error:error.message
+      .then((docs) => {
+        if (docs) {
+          res.status(200).json({
+            status_code: 0,
+            message: "Menu item is deleted",
+            data: [],
+          });
+        } else {
+          res.status(404).json({
+            status_code: ApiErrorCode.notFound,
+            message: "Can`t Found Menu Item Id",
+            data: null,
+          });
         }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          status_code: ApiErrorCode.internalError,
+          message: "Internal server Error",
+          error: {
+            error: error.message,
+          },
+        });
       });
-    })
   }
 }
-module.exports ={ consumeController};
+module.exports = { consumeController };
