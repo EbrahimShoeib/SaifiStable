@@ -188,10 +188,20 @@ router.post("/add-user",(req,res)=>{
       email: req.body.email,
       password:req.body.password
     })
+    const token = jwt.sign(
+      {
+        id: user._id,
+        isAdmin: user.isAdmin,
+      },
+      process.env.JWT_SECRET_KEY)
+      user.token.push(token);
+          user.save() 
+ 
     res.status(200).json({
       status_code:0,
       message : "added success",
-      data :user
+      data :{user
+      }
     })
   } catch (error) {
     res.status(200).json({
