@@ -21,6 +21,7 @@ function EditConsumedItemPage() {
     const [quantity,setQuantity] = useState<string>("")
     const [price,setPrice] = useState<string>("")
     const [payment,setPayment] = useState<NameAndId>(null)
+    const [amount,setAmount] = useState<string>('')
     const [client,setClient] = useState<NameAndId>(null)
     const [date,setDate] = useState<string>("")
     const [isLoading,setIsLoading] = useState<boolean>(true)
@@ -48,6 +49,7 @@ function EditConsumedItemPage() {
                 }) : null      
                 setClient(client)
                 setIsLoading(false)
+                setAmount(itemData.amount ?itemData.amount:'')
             }
             
         }
@@ -62,6 +64,7 @@ function EditConsumedItemPage() {
             type:"no-type",
             consumedPrice:price,
             date,
+            amount,
             clientId:client?.id,
             consumedPayment:payment?.name
         })),
@@ -100,6 +103,8 @@ function EditConsumedItemPage() {
                 setDate={setDate}
                 isLoading={isLoading}
                 client={client}
+                amount={amount}
+                setAmount={setAmount}
                 setClient={setClient}
                 payment={payment}
                 setPayment={setPayment}     

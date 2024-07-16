@@ -3,16 +3,16 @@ import PageContent from '@/components/layout/PageContent'
 import SearchBox from '@/components/shared/all/SearchBox'
 import ResourcesDropList from '@/components/shared/resources/ResourcesDropList'
 import ResourcesInput from '@/components/shared/resources/ResourcesInput'
-import { clientsRoute } from '@/constants/api'
+import { cafeteriaMenuItemRoute, clientsRoute } from '@/constants/api'
 import { cafeteriaPayments } from '@/constants/cafeteriaPayments'
 import { toNameAndId } from '@/utils/toNameAndId'
 import React, { useState } from 'react'
 
 
-type CafeteriaConsumedInputsProps = {
+type InputsProps = {
     handleSubmit: () => void,
-    itemName:string,
-    setItemName: (newState: string) => void,
+    itemName:NameAndId,
+    setItemName: (newState: NameAndId) => void,
     quantity:string,
     setQuantity: (newState: string) => void,
     price:string,
@@ -29,7 +29,7 @@ type CafeteriaConsumedInputsProps = {
     setAmount:(newState:string)=> void
 }
 
-function CafeteriaConsumedInputs({
+function Inputs({
     handleSubmit,
     itemName,
     setItemName,
@@ -48,20 +48,23 @@ function CafeteriaConsumedInputs({
     amount,
     setAmount
 
-}:CafeteriaConsumedInputsProps) {
+}:InputsProps) {
 
     const [clientsRes,setClientsRes] = useState<any>()
+    const [menuItemsRes,setMenuItemsRes] = useState<any>()
 
     return (
         <PageContent>
             <div className='max-w-[600px] flex flex-col gap-10 my-16 mx-8'>
 
-                <ResourcesInput
-                    value={itemName} 
-                    setValue={setItemName}
-                    placeholder="Enter Item Name"
-                    label='item name'
-                    type='text'
+            <SearchBox
+                    label={'item name'}
+                    options={toNameAndId(menuItemsRes?.caveteriaItems.data,'menuItemName',"_id")}
+                    searchUrl={cafeteriaMenuItemRoute}
+                    setResponse={setMenuItemsRes}
+                    listValue={itemName}
+                    placeholder='select item name'
+                    setListValue={setItemName}
                 />
                 <ResourcesInput
                     value={quantity} 
@@ -121,4 +124,4 @@ function CafeteriaConsumedInputs({
     )
 }
 
-export default CafeteriaConsumedInputs
+export default Inputs
