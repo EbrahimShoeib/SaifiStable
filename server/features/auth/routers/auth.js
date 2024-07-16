@@ -182,6 +182,36 @@ router.get("/get-password", async (req, res) => {
   });
 });
 
+router.post("/add-user",(req,res)=>{
+  try {
+   let user = new User ({
+      email: req.body.email,
+      password:req.body.password
+    })
+    res.status(200).json({
+      status_code:0,
+      message : "added success",
+      data :user
+    })
+  } catch (error) {
+    res.status(200).json({
+      status_code:ApiErrorCode.validation,
+      message : "added success",
+      data :null,
+      error:{
+        error:error.message
+      }
+    })
+  }
+})
+router.delete("/delete/:id",(req,res)=>{
+  User.findByIdAndDelete(req.params.id)
+  .then(
+    res.json({ message:"user is deleted"})
+  )
+  .catch((error)=>{
+    res.jsom({message : error.message}) })
+})
 router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res) => {
 
   console.log(req.file.buffer)

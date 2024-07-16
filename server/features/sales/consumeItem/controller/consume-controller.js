@@ -19,7 +19,6 @@ class consumeController {
       ],
     })
       .populate("clientId")
-      
       .select("-__v")
       .skip(skip) // Skip documents
       .sort({ votes: 1, _id: -1 })
