@@ -161,11 +161,11 @@ router.get("/get-admin", verifyTokenAndAdmin, async (req, res) => {
       }
     })
     .catch((error) => {
-      res.status(500).json({
+     res.status(500).json({
         status_code: ApiErrorCode.internalError,
         message: "internal server error",
         error: error.message,
-      });
+      }); 
     });
 });
 
@@ -214,7 +214,27 @@ router.post("/add-user",(req,res)=>{
     })
   }
 })
-router.delete("/delete/:id",(req,res)=>{
+
+router.get("/get-user/:id",async(req,res)=>{
+  await User.findById(req.params.id)
+  .then( (docs)=>{
+    res.status(200).json({
+      status_code: ApiErrorCode.internalError,
+      message: "success",
+      data: docs,
+    })
+  }
+   
+  )
+  .catch((error)=>{
+    res.status(404).json({
+      status_code: ApiErrorCode.internalError,
+      message: "id is not found",
+      error: error.message,
+    });
+  })
+})
+router.delete("/delete-user/:id",(req,res)=>{
   User.findByIdAndDelete(req.params.id)
   .then(
     res.json({ message:"user is deleted"})
@@ -222,6 +242,8 @@ router.delete("/delete/:id",(req,res)=>{
   .catch((error)=>{
     res.jsom({message : error.message}) })
 })
+
+
 router.post("/uploads",verifyTokenAndAdmin,upload.single('image'),async (req,res) => {
 
   console.log(req.file.buffer)
