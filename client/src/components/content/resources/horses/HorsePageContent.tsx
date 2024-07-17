@@ -20,7 +20,7 @@ function HorsesPageContent({isDataHere,response,refetch}:HorsesPageProps) {
         <PageContent>
             
             <Loader isLoading={!isDataHere}>
-            
+             
                 {
                     isDataHere ? ( 
                         horses.length ? (
