@@ -49,7 +49,6 @@ function CoffeeControls() {
             
             if (status) {
                 successPopUp("item added successfully")
-                router.push("/sales/cafeteria/consumed-item")
             }else {
                 failedPopUp(res.message)
             }
