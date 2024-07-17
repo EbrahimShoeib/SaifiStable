@@ -142,7 +142,7 @@ router.patch("/update-admin", verifyTokenAndAdmin, async (req, res) => {
 
 router.get("/get-admin", verifyTokenAndAdmin, async (req, res) => {
   User.findById(req.user.id)
-    .select("-__v -imageBuffer -imageType -token -password ")
+    .select("-__v -imageBuffer -imageType  -password ")
 
     .then((docs) => {
       if (docs) {
@@ -215,8 +215,8 @@ router.post("/add-user",(req,res)=>{
   }
 })
 
-router.get("/get-user/:id",async(req,res)=>{
-  await User.findById(req.params.id)
+router.get("/get-user",verifyTokenAndAdmin,async(req,res)=>{
+   User.findById(req.user.id)
   .then( (docs)=>{
     res.status(200).json({
       status_code: ApiErrorCode.internalError,
