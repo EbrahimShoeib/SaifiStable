@@ -99,11 +99,6 @@ export const SalesRoutes : DashboardRoute[] = [
         name:"membership"
     },
     {
-        href:"/sales/coffee",
-        iconComponent:<FaCoffee />,
-        name:"coffee"
-    },
-    {
         href:"/sales/packages",
         iconComponent:<BiSolidPackage />,
         name:"packages"

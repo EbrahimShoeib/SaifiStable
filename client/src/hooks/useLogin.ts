@@ -9,7 +9,6 @@ import { useMutation } from "react-query";
 const authRoute = `/auth/login`
 
 const login = async (email:string,password:string) => {
-    console.log("hi form loe")
 
     const body = JSON.stringify({
         email,
@@ -26,13 +25,13 @@ function useLogin(email: string, password: string) {
     const {mutate} = useMutation({
         mutationFn:async()=>login(email,password),
         onSuccess:async(response)=> {
-            console.log(response);
+            //console.log(response);
             
             if (response.data) {
                 const {data:{user}} = response
                 setToken(user.token)
-                setUser(user)
-                auth?.setIsAuth(true)
+                setUser(user)                
+                auth?.setToken(user.token)
                 toastify("logged in successfully ✅")
                 
                 return

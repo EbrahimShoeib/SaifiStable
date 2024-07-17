@@ -4,7 +4,7 @@ import { getToken } from "./authServices";
 
 export const httpGetServices = async (url:string) => {
 
-    const token = getToken() as string
+    const token = getToken() as string 
     try {
         const response = await fetch(`${BASE_URL}${url}`, {
             //mode: 'no-cors',

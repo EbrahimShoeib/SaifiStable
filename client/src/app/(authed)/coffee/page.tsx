@@ -1,86 +1,126 @@
 "use client"
 
-import Input from "@/components/shared/all/Input"
-import { authRoute } from "@/constants/api"
+import { authRoute, BASE_URL, cafeteriaConsumedItemRoute, getAdminRoute } from "@/constants/api"
+import { useFailedPopUp } from "@/hooks/useFailedPopUp"
+import { useSuccessPopUp } from "@/hooks/useSuccessPopUp"
 import { httpPostService } from "@/services/httpPostService"
-import toastify from "@/utils/toastify"
+import { statusCodeIndicator } from "@/utils/statusCodeIndicator"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { useMutation } from "react-query"
+import { useMutation, useQuery } from "react-query"
+import Inputs from "./Inputs"
+import { httpGetServices } from "@/services/httpGetService"
+import { GiCoffeeCup } from "react-icons/gi"
+import { useLogout } from "@/hooks/useLogout"
+import { BiSolidDoorOpen } from "react-icons/bi"
+import { AuthProviderData, useAuthProvider } from "@/context/AuthContext"
 
-function Coffee() {
-    const [email,setEmail] = useState<string>('')
-    const [password,setPassword] = useState<string>('')
+function CoffeeControls() {
+
+    const auth:AuthProviderData = useAuthProvider()
     const router = useRouter()
+   
+    const [itemName,setItemName] = useState<NameAndId>(null)
+    const [quantity,setQuantity] = useState<string>("")
+    const [price,setPrice] = useState<string>("0")
+    const [payment,setPayment] = useState<NameAndId>(null)
+    const [client,setClient] = useState<NameAndId>(null)
+    const [amount,setAmount] = useState<string>("")
+    const [date,setDate] = useState<string>("")
+    const [isLoading,setIsLoading] = useState<boolean>(false)
 
-    useEffect(()=>{
-        if(localStorage.getItem("coffee_token"))
-            router.push("/sales/coffee")
-    },[])
-    
-    const {mutate:login} = useMutation({
-        mutationFn:async()=> httpPostService(`${authRoute}/login`,JSON.stringify({
-            email,
-            password
+
+    const failedPopUp = useFailedPopUp()
+    const successPopUp = useSuccessPopUp()
+
+    const {mutate} = useMutation({
+        mutationFn:async () => httpPostService(cafeteriaConsumedItemRoute,JSON.stringify({
+            consumedItemName:itemName?.name,
+            consumedQuantity:quantity,
+            consumedPrice:price,
+            date,
+            type:"no-type",
+            clientId:client?.id,
+            consumedPayment:payment?.name,
+            amount
         })),
-        onSuccess:async(response)=> {
-            console.log(response);
+        onSuccess:(res) => {
+            const status = statusCodeIndicator(res.status_code) === "success" 
             
-            if (response.data) {
-                const {data:{user}} = response
-                localStorage.setItem("coffee_token",user.token)
-                toastify("logged in successfully ✅")
-                router.push("/sales/coffee")
-                return
+            if (status) {
+                successPopUp("item added successfully")
+                router.push("/sales/cafeteria/consumed-item")
+            }else {
+                failedPopUp(res.message)
             }
-            toastify("email or password might be wrong ❌")
         },
-        onError:()=> {
-            toastify("error on requesting data please try later")
-        }
+        onError: () => failedPopUp()
     })
-    
 
+    const {data,isLoading:isUserLoading} = useQuery({
+        queryFn:async()=> httpGetServices(`${authRoute}/get-user/${auth?.decodedUser?.id}`),
+        queryKey:['get','admin']
+    })
+console.log(data)
+    const logout = useLogout()
     return (
-        <section className='h-screen flex justify-center items-center relative bg-cover bg-[url(/images/farm.png)]'>
-        
-            <span className='w-full h-screen absolute top-0 left-0 bg-[#383F51] opacity-80'/>
 
-
-            <div className=' w-[70%]  p-5 sm:w-[450px] bg-smokey-white bg-opacity-30 backdrop-blur-sm rounded-3xl border-2 border-solid border-opacity-30 border-smokey-white'>
-
-                <h6 className='text-smokey-white text-xl'>coffee login</h6>
-                <div className='flex flex-col items-center'>
-                    <img src="/svgs/logo.svg" className='w-[250px] aspect-square' alt="" />
-                
-                    <div className='w-full sm:w-4/5 space-y-5'>
-                        <Input
-                            type='text' 
-                            value={email} 
-                            setValue={setEmail}
-                            className='h-[50px] w-full placeholder:text-dark-grey text-dark-grey p-3 text-xl rounded-xl !bg-zinc-300'
-                            placeholder='Email'
-                        />
-                        <Input 
-                            type='password' 
-                            value={password}  
-                            setValue={setPassword} 
-                            className='h-[50px] w-full placeholder:text-dark-grey text-dark-grey p-3 text-xl rounded-xl !bg-zinc-300'
-                            placeholder='Password'
-                        />
-
+        <>
+            
+            <main className="w-full h-full px-20 ">
+                <div className="w-full flex items-center justify-between h-[80px]">
+                    <h3 
+                        style={{WebkitTextStroke:"var(--smokey-white) .25px"}} 
+                        className="text-smokey-white w-fit tracking-wider text-xl">
+                        Cafeteria
+                    </h3>
+                    <div className="flex items-center gap-5">
+                        <button onClick={logout} className='border-primary gap-3 w-[200px] capitalize duration-300 hover:bg-primary hover:text-smokey-white py-1 border-solid border flex justify-center items-center rounded-2xl text-primary font-semibold'>
+                            <BiSolidDoorOpen  className="text-xl"/>
+                            <span>log out</span>
+                        </button>
+                        <div className="h-[35px] aspect-square bg-zinc-300 rounded-full"></div>   
                     </div>
-
-                    <button 
-                        className='text-smokey-white text-3xl mt-10 h-[60px] w-full sm:w-3/5 bg-primary rounded-xl mb-20' 
-                        onClick={() => login()}
-                    >
-                        coffee login
-                    </button>
                 </div>
-            </div>
-        </section>
+                <div className="w-full h-[200px] overflow-hidden flex items-center justify-between mb-10  rounded-2xl bg-smokey-white">
+                    <div className="p-10 flex items-center gap-20">
+                        <div className="h-full flex flex-col items-center justify-center gap-2">
+                            <div className="w-[85px] flex justify-center items-center border-2 border-primary aspect-square rounded-full">
+                                <GiCoffeeCup className="text-5xl text-dark-grey"/>
+                            </div>
+                        <p className="capitalize text-dark-grey font-extrabold">{data?.user?.name||"no-user"}</p>
+                            <p className="text-primary text-sm">Employee</p>
+                        </div>
+
+                        <div className="flex text-dark-grey/70 font-semibold justify-center flex-col gap-3">
+                            <p>User Name : {data?.user?.email||"no-email"}</p>
+                            <p>Date : {data?.user?.date||"no-date"}</p>
+                        </div>
+                    </div>
+                    <img className="aspect-square h-[260px]" src='/svgs/logo.svg' alt="" />
+                </div>
+                <Inputs
+                    handleSubmit={mutate}
+                    itemName={itemName}
+                    setItemName={setItemName}
+                    quantity={quantity}
+                    setQuantity={setQuantity}
+                    price={price}
+                    setPrice={setPrice}
+                    date={date}
+                    setDate={setDate}
+                    isLoading={isLoading}
+                    client={client}
+                    setClient={setClient}
+                    payment={payment}
+                    amount={amount}
+                    setAmount={setAmount}
+                    setPayment={setPayment}     
+                    submitButtonLabel="add consumed item"
+                />
+            </main>
+        </>
     )
 }
 
-export default Coffee
+export default CoffeeControls

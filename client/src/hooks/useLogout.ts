@@ -8,6 +8,8 @@ export const useLogout = () => {
         removeToken()
         removeUser()
         auth?.setIsAuth(false)
+        auth?.setToken("")
+        
         toastify("logged out successfully ✅")
     }
     return logoutFunc
