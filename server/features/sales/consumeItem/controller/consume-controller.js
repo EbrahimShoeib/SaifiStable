@@ -111,27 +111,14 @@ class consumeController {
             date: req.body.date,
           })
             .save()
-            .then(async (docs) => {
-              await Client.findByIdAndUpdate(req.body.clientId, {
-                $inc: { activityCount: 1 },
-              });
-
               res.status(200).json({
                 status_code: 1,
                 message: "consumed item created successfuly",
                 data: docs,
               });
             })
-            .catch((error) => {
-              res.status(500).json({
-                status_code: ApiErrorCode.internalError,
-                message: "consumed item Already Found",
-                error: {
-                  error: error.message,
-                },
-              });
-            });
-        })
+            
+       
         .catch((error) => {
           res.status(500).json({
             status_code: 1,
