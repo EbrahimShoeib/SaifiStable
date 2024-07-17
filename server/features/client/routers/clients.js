@@ -27,7 +27,7 @@ router.post(
  * @access private
  */
 router.get(
-  "/:id",verifyTokenAndAdmin,
+  "/:id",
    ClientController.getClientById
 );
 
@@ -40,7 +40,7 @@ router.get(
 * @access private
 */
 router.get(
-  "/",verifyTokenAndAdmin,
+  "/",
    ClientController.getAllClients
 );
 
