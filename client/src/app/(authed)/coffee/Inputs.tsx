@@ -7,7 +7,7 @@ import { cafeteriaMenuItemRoute, clientsRoute } from '@/constants/api'
 import { cafeteriaPayments } from '@/constants/cafeteriaPayments'
 import { toNameAndId } from '@/utils/toNameAndId'
 import React, { useEffect, useState } from 'react'
-
+  
 
 type InputsProps = {
     handleSubmit: () => void,
