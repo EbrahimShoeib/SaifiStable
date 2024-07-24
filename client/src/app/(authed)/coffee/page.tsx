@@ -65,7 +65,7 @@ console.log(data)
     return (
 
         <>
-            
+
             <main className="w-full h-full px-20 ">
                 <div className="w-full flex items-center justify-between h-[80px]">
                     <h3 
