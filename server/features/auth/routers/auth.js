@@ -215,8 +215,8 @@ router.post("/add-user",(req,res)=>{
   }
 })
 
-router.get("/get-user/:id",verifyTokenAndAdmin,async(req,res)=>{
- await  User.findById(req.user.id)
+router.get("/get-user",verifyTokenAndAdmin,async(req,res)=>{
+   User.findById(req.user.id)
   .then( (docs)=>{
     res.status(200).json({
       status_code: ApiErrorCode.internalError,
