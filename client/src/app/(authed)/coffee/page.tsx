@@ -78,6 +78,7 @@ function CoffeeControls() {
     const year = today.getFullYear();
     const month = +String(today.getMonth() + 1).padStart(2, '0'); +1
     const day = +String(today.getDate()).padStart(2, '0');
+    
     return (
 
         <>
@@ -110,7 +111,7 @@ function CoffeeControls() {
                         <div className="flex text-dark-grey/70 font-semibold justify-center flex-col gap-3">
                             <p>Email : {res?.data?.email||"no-email"}</p>
                             <p>Date : {`${year}/${month}/${day}`}</p>
-                        </div>
+                        </div>  
                     </div>
                     <img className="aspect-square h-[260px]" src='/svgs/logo.svg' alt="" />
                 </div>

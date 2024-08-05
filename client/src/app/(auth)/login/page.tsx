@@ -27,7 +27,7 @@ function LoginPage() {
                 <div className='flex flex-col items-center'>
                     <img src="/svgs/logo.svg" className='w-[250px] aspect-square' alt="" />
                 
-                    <div className="flex w-full sm:w-4/5 mb-5 justify-between items-center">
+                    {/* <div className="flex w-full sm:w-4/5 mb-5 justify-between items-center">
                         <div>
                             <label className='mr-2' htmlFor="admin">login as admin</label>
                             <input className='accent-primary' type="radio" name="status" id="admin" />
@@ -36,7 +36,7 @@ function LoginPage() {
                             <label className='mr-2' htmlFor="user">login as user</label>
                             <input className='accent-primary' type="radio" name="status" id="user" />
                         </div>
-                    </div>
+                    </div> */}
                     <div className='w-full sm:w-4/5 space-y-5'>
                         <Input 
                             type='text' 
