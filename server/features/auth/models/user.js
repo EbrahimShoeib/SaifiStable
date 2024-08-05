@@ -46,7 +46,7 @@ const userSchema =new mongoose.Schema({
 
 
 userSchema.methods.generateToken = function(){
-    return jwt.sign({id : this._id , isAdmin: this.isAdmin,randomNumber : Math.random()},process.env.JWT_SECRET_KEY ,{expiresIn:"100d"})
+    return jwt.sign({id : this._id , isAdmin: this.isAdmin,randomNumber : Math.random()},process.env.JWT_SECRET_KEY )
  }
 
 function validationLoginUser(obj){
